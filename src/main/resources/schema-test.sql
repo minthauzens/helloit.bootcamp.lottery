@@ -30,6 +30,7 @@ create table public.participant
 	email varchar(99) not null,
 	age integer not null,
 	code varchar(16) not null,
+    registration_date date not null,
 	lottery_id serial not null
 		constraint participant_lottery_id_fk
 			references lottery

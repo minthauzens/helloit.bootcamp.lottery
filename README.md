@@ -20,5 +20,8 @@ Security:
         username:
         password:
         
+TASKS:
+    Implement better lottery validation error responses
+
 Known issues:
     tests can fail if run at midnight, because the date could change between actions.
