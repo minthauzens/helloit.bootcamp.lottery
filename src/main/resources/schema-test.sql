@@ -1,4 +1,12 @@
-create table lottery
+drop schema if exists public CASCADE ;
+drop table if exists participant;
+drop table if exists lottery;
+create schema public;
+
+alter schema public owner to "lotteryDBUserDev";
+
+
+create table public.lottery
 (
 	id serial not null
 		constraint lottery_pk
@@ -14,7 +22,7 @@ alter table lottery owner to "lotteryDBUserDev";
 create unique index lottery_id_uindex
 	on lottery (id);
 
-create table participant
+create table public.participant
 (
 	id serial not null
 		constraint participant_pk

@@ -25,23 +25,5 @@ class LotteryServiceTest {
         this.victim = new LotteryService(lotteryDao);
     }
 
-    @Test
-    void shouldCreateNewFromLotteryRegistrationDto() {
-        LotteryRegistrationDto registrationDto = LotteryRegistrationDto.builder()
-                .title("Lottery Test Title")
-                .limit(1000)
-                .build();
-        Lottery daoSave = Lottery.builder()
-                .id(1L)
-                .title(registrationDto.getTitle())
-                .limit(registrationDto.getLimit())
-                .startDate(LocalDate.now())
-                .build();
-        // FIXME
-        when(lotteryDao.save(daoSave)).thenReturn(daoSave);
-        Lottery result = victim.createLottery(registrationDto);
 
-        assertEquals(result.getTitle(), "Lottery Test Title");
-        assertEquals(result.getLimit(), 1000);
-    }
 }

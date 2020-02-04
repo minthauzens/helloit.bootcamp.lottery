@@ -5,18 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Sql("/schema-test.sql")
 public class LotteryRestControllerTest {
 
     @Autowired
@@ -33,11 +32,9 @@ public class LotteryRestControllerTest {
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath("$.title").value("Injection Lottery"))
-                .andExpect(jsonPath("$.limit").value(1000))
-                .andExpect(jsonPath("$.startDate").value(LocalDate.now()))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.id").exists())
                 .andReturn();
 
     }
