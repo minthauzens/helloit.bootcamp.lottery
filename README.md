@@ -8,10 +8,17 @@ postgreSQL - for production
     username:       lotteryDBUser
     password:       mX560^UveyUd&#eH
 
-h2 - for testing
+postgreSQL - for testing
+    dbname:         lotteryDBDev
+    username:       lotteryDBUserDev
+    password:       q4cqu&&AmbEV43q%
 
+    
 
 Security:
     Admin:
         username:
         password:
+        
+Known issues:
+    tests can fail if run at midnight, because the date could change between actions.

@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,10 +25,10 @@ public class LotteryService {
         return lottery;
     }
 
-    public ArrayList<Lottery> getAllLotteries() {
-        ArrayList<Lottery> result = new ArrayList<>();
+    public HashMap<Long, Lottery> getAllLotteries() {
+        HashMap<Long, Lottery> result = new HashMap<Long, Lottery>();
         for (Lottery lottery : lotteryDao.findAll()) {
-            result.add(lottery);
+            result.put(lottery.getId(), lottery);
         }
         return result;
     }

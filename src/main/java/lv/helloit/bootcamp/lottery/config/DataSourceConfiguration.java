@@ -25,7 +25,6 @@ public class DataSourceConfiguration {
         ds.setUsername(DB_USERNAME);
         ds.setPassword(DB_PASSWORD);
         ds.setDriverClassName("org.postgresql.Driver");
-        ds.setMaxTotal(3);
         return ds;
     }
     @Bean
@@ -36,7 +35,6 @@ public class DataSourceConfiguration {
         ds.setUsername(DB_USERNAME_DEV);
         ds.setPassword(DB_PASSWORD_DEV);
         ds.setDriverClassName("org.postgresql.Driver");
-        ds.setMaxTotal(3);
         return ds;
     }
 }

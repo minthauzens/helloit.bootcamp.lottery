@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 @RestController
 public class LotteryRestController {
@@ -22,13 +22,13 @@ public class LotteryRestController {
     @PostMapping("/start-registration")
     public ResponseEntity<String> createLottery(
             @Valid @RequestBody LotteryRegistrationDto lotteryDto,
-            BindingResult bindingResult){
+            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-//            String wrongField = bindingResult.getFieldErrors().get(0).getField();
+//            String wrongField = bindingResult.getFieldErrors().get(0).getDefaultMessage();
             return new ResponseEntity<>("{\n" +
                     "\"status\":  \"Fail\",\n" +
                     "\"reason\": \"Please provide valid lottery properties. Title has to be provided and limit has to be numeric and larger than 1\"\n" +
-                    "}", HttpStatus.CREATED);
+                    "}", HttpStatus.BAD_REQUEST);
 
         } else {
             Lottery lottery = lotteryService.createLottery(lotteryDto);
@@ -39,8 +39,8 @@ public class LotteryRestController {
         }
     }
 
-    @GetMapping("/lotteries")
-    public ArrayList<Lottery> getAllLotteries() {
+    @GetMapping("/status")
+    public HashMap<Long, Lottery> getAllLotteries() {
         return this.lotteryService.getAllLotteries();
     }
 }

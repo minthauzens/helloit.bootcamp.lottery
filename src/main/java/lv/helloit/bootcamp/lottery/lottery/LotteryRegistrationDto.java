@@ -15,11 +15,11 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Builder
 public class LotteryRegistrationDto {
-    @NotBlank
+    @NotBlank(message = "Cant be blank")
     private String title;
     @NotNull
-    @Max(Integer.MAX_VALUE)
-    @Min(1)
+    @Max(value = Integer.MAX_VALUE, message = "Cant be larger than Integer.MAX_VALUE")
+    @Min(value = 1, message = "Has to be an int and larger than 0")
     private int limit;
 
 }
