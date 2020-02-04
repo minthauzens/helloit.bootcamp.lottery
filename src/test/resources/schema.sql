@@ -9,7 +9,7 @@ create table lottery
 	end_date date
 );
 
-alter table lottery owner to "lotteryDBUser";
+alter table lottery owner to "lotteryDBUserDev";
 
 create unique index lottery_id_uindex
 	on lottery (id);
@@ -27,7 +27,7 @@ create table participant
 			references lottery
 );
 
-alter table participant owner to "lotteryDBUser";
+alter table participant owner to "lotteryDBUserDev";
 
 create unique index participant_id_uindex
 	on participant (id);

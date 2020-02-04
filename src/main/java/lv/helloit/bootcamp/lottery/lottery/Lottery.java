@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -17,13 +15,15 @@ import java.time.LocalDateTime;
 @Entity
 public class Lottery {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false, nullable = false, columnDefinition = "serial")
     private Long id;
-    @Column
+    @Column(nullable = false)
     private String title;
-    @Column
+    @Column(name = "participant_limit")
     private int limit;
+    @Column(nullable = false)
+    private LocalDate startDate;
     @Column
-    private LocalDateTime startDate;
-    @Column
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 }
