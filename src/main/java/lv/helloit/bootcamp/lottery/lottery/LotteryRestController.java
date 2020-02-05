@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class LotteryRestController {
@@ -40,7 +40,7 @@ public class LotteryRestController {
     }
 
     @GetMapping("/status")
-    public HashMap<Long, Lottery> getAllLotteries() {
+    public List<Lottery> getAllLotteries() {
         return this.lotteryService.getAllLotteries();
     }
 }
