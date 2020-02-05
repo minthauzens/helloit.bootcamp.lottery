@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LotteryService {
@@ -15,12 +16,12 @@ public class LotteryService {
     }
 
     public Lottery createLottery(LotteryRegistrationDto lotteryRegistrationDto) {
-        Lottery lottery = new Lottery();
-        lottery.setTitle(lotteryRegistrationDto.getTitle());
-        lottery.setLimit(lotteryRegistrationDto.getLimit());
-        lottery.setStartDate(LocalDate.now());
-        lottery = lotteryDao.save(lottery);
-        return lottery;
+        Lottery lottery = Lottery.builder()
+                .title(lotteryRegistrationDto.getTitle())
+                .limit(lotteryRegistrationDto.getLimit())
+                .startDate(LocalDate.now())
+                .build();
+        return lotteryDao.save(lottery);
     }
 
     public List<Lottery> getAllLotteries() {
@@ -31,4 +32,11 @@ public class LotteryService {
         return result;
     }
 
+    public boolean existsById(Long id) {
+        return this.lotteryDao.existsById(id);
+    }
+
+    public Optional<Lottery> getById(Long id) {
+        return this.lotteryDao.findById(id);
+    }
 }

@@ -29,6 +29,6 @@ public class Participant {
     @Column(nullable = false, updatable = false)
     private LocalDate registrationDate;
     @Column
-    private Long lottery_id;
+    private Long lotteryId;
 
 }

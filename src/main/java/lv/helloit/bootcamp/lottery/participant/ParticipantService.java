@@ -18,9 +18,13 @@ public class ParticipantService {
                 .email(participantDto.getEmail())
                 .code(participantDto.getCode())
                 .age(participantDto.getAge())
-                .lottery_id(participantDto.getLottery_id())
+                .lotteryId(participantDto.getLottery_id())
                 .registrationDate(LocalDate.now())
                 .build();
         return this.participantDao.save(participant);
+    }
+
+    public boolean existsByCodeAndLotteryId(String code, Long lotteryId){
+        return participantDao.existsByCodeAndLotteryId(code, lotteryId);
     }
 }

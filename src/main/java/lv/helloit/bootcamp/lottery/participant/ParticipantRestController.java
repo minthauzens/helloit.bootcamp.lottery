@@ -23,13 +23,7 @@ public class ParticipantRestController {
     @PostMapping("/register")
     public ResponseEntity<String> registerParticipant(@Valid @RequestBody ParticipantRegisterDto participantDto,
                                                       BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>("{\n" +
-                    "\"status\":  \"Fail\",\n" +
-                    "\"reason\": \"Please provide valid participant\"\n" +
-                    "}", HttpStatus.BAD_REQUEST);
-
-        } else if (!(participantValidator.validate(participantDto))) {
+        if (bindingResult.hasErrors() || !(participantValidator.validate(participantDto))) {
             return new ResponseEntity<>("{\n" +
                     "\"status\":  \"Fail\",\n" +
                     "\"reason\": \"Please provide valid participant\"\n" +
