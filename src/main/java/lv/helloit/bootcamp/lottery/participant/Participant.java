@@ -28,7 +28,7 @@ public class Participant {
     private String code;
     @Column(nullable = false, updatable = false)
     private LocalDate registrationDate;
-    @Column
+    @Column(name="lottery_id")
     private Long lotteryId;
 
 }

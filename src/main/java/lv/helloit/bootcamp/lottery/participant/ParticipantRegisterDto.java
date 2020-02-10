@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 public class ParticipantRegisterDto {
     @NotNull(message = "Lottery id must be provided")
     @JsonProperty("id")
-    private Long lottery_id;
+    private Long lotteryId;
 
     @Email(message = "must provide valid email")
     @Size(min = 5, max=99, message = "email name length can't exceed 99")

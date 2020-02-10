@@ -53,7 +53,7 @@ public class ParticipantValidator {
     }
 
     private boolean isLotteryIdValid() {
-        return this.lotteryService.existsById(this.participantRegisterDto.getLottery_id());
+        return this.lotteryService.existsById(this.participantRegisterDto.getLotteryId());
     }
 
     private boolean
@@ -65,7 +65,7 @@ public class ParticipantValidator {
         if (!isLength16()) response.setStatusFalseWithMessage("Code has to be 16 digits long");
         else if (!isFirstHalfValid()) response.setStatusFalseWithMessage("Please provide valid code");
         else if (participantService.existsByCodeAndLotteryId(participantRegisterDto.getCode(),
-                participantRegisterDto.getLottery_id()))
+                participantRegisterDto.getLotteryId()))
             response.setStatusFalseWithMessage("Code already has been registered");
         return response.isStatus();
     }
@@ -81,7 +81,7 @@ public class ParticipantValidator {
     }
 
     private String generateFirstHalf() {
-        Optional<Lottery> optionalLottery = lotteryService.getById(participantRegisterDto.getLottery_id());
+        Optional<Lottery> optionalLottery = lotteryService.getById(participantRegisterDto.getLotteryId());
         // already tested if exists in existsById
         if (optionalLottery.isEmpty()) {
             throw new RuntimeException("no valid lottery id provided");

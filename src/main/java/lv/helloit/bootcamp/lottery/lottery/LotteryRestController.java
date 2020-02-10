@@ -40,7 +40,7 @@ public class LotteryRestController {
     }
 
     @GetMapping("/status")
-    public List<Lottery> getAllLotteries() {
-        return this.lotteryService.getAllLotteries();
+    public List<Lottery> getAll() {
+        return this.lotteryService.getAll();
     }
 }

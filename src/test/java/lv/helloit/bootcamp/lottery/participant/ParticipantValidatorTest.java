@@ -37,7 +37,7 @@ class ParticipantValidatorTest {
         String email = "some@mail.com";
         validCode = generateValidDtoCode(email);
         participantRegisterDto = ParticipantRegisterDto.builder()
-                .lottery_id(1L)
+                .lotteryId(1L)
                 .email(email)
                 .age(21)
                 .code(validCode)

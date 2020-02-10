@@ -57,3 +57,5 @@ Should learn:
     how to make entities with many to many many to one one to many relations
     
 is application secure from multiple requests collisions
+    i dont think so,
+    validator checks if lottery has properties with one query, then with a different query the request is saved.

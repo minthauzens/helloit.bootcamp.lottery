@@ -24,11 +24,9 @@ public class LotteryService {
         return lotteryDao.save(lottery);
     }
 
-    public List<Lottery> getAllLotteries() {
+    public List<Lottery> getAll() {
         List<Lottery> result = new ArrayList<>();
-        for (Lottery lottery : lotteryDao.findAll()) {
-            result.add(lottery);
-        }
+        lotteryDao.findAll().forEach(result::add);
         return result;
     }
 

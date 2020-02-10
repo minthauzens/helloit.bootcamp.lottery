@@ -18,7 +18,7 @@ public class ParticipantService {
                 .email(participantDto.getEmail())
                 .code(participantDto.getCode())
                 .age(participantDto.getAge())
-                .lotteryId(participantDto.getLottery_id())
+                .lotteryId(participantDto.getLotteryId())
                 .registrationDate(LocalDate.now())
                 .build();
         return this.participantDao.save(participant);
