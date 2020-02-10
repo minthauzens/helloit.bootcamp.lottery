@@ -26,6 +26,7 @@ public class ParticipantRestController {
         String status = "OK";
         String reason = null;
         HttpStatus httpStatus = HttpStatus.CREATED;
+        Participant participant = null;
         if (bindingResult.hasErrors()) {
             status = "Fail";
             reason = bindingResult.getFieldErrors().get(0).getDefaultMessage();
@@ -37,12 +38,19 @@ public class ParticipantRestController {
                 reason = response.getMessage();
                 httpStatus = HttpStatus.BAD_REQUEST;
             } else {
-                Participant participant = participantService.createParticipant(participantDto);
+                participant = participantService.createParticipant(participantDto);
             }
         }
+        String reasonOrID;
+        if ("Fail".equals(status)) {
+            reasonOrID = "\"reason\":  \"" + reason + "\",\n";
+        } else {
+            reasonOrID = "\"id\":  \"" + participant.getId() + "\",\n";
+        }
+
         return new ResponseEntity<>("{\n" +
-                "\"status\":  \""+ status +"\",\n" +
-                "\"reason\":  \""+ reason +"\"\n" +
+                "\"status\":  \"" + status + "\",\n" +
+                reasonOrID +
                 "}", httpStatus);
 
     }

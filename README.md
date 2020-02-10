@@ -21,14 +21,12 @@ Security:
         password:
         
 TASKS:
-    Implement better lottery validation error responses
     /stats need to add participants count
     need to test for lottery participant limit, for participant saving (i dont think it is a validators job)
         because the code is valid, but lottery has reached its limit
             dont have test for that either
         or end_date has been set
     LOGGING
-    
     implement lotteryEndDate that can be set in advance
         you can end registration now,
         or on some specific future date 
@@ -44,11 +42,18 @@ Future improvements:
             false comes after valid
             false after false
             true after true
-                // had design issue where ValidatorResponse was defined in constructor not in validate method
+                // had design issue where ValidatorResponse was defined in constructor not in validate method     
+    LotteryRestControllerTest:
+        tests for each error message in LotteryDto
 
 Known issues and limits:
     tests can fail if run at midnight, because the date could change between actions.
+    participantRestController tests can also fail, if unlucky with code generator
+        remove randomness for last 8 digit creation
     cant participate more than Integer.MAX_VALUE participants in lotteries
+    ResponseEntities only contain the first error message from bindingResults
 
 Should learn:
     how to make entities with many to many many to one one to many relations
+    
+is application secure from multiple requests collisions

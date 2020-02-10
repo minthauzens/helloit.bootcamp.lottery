@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql("/test/schema-base.sql")
+@Sql("/test-sqls/schema-base.sql")
 public class LotteryRestControllerTest {
 
     @Autowired
