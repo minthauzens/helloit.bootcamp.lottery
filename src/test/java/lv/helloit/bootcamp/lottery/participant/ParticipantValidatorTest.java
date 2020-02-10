@@ -14,8 +14,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static lv.helloit.bootcamp.lottery.participant.ParticipantTestHelper.generateValidDtoCode;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,36 +59,39 @@ class ParticipantValidatorTest {
         when(lotteryService.getById(1L)).thenReturn(Optional.of(lottery));
         // simulates that code is not in DB
         when(participantService.existsByCodeAndLotteryId(validCode, 1L)).thenReturn(false);
-
-        boolean result = victim.validate(participantRegisterDto);
-        assertTrue(result);
+        ValidatorResponse validatorResponse = victim.validate(participantRegisterDto);
+        assertTrue(validatorResponse.isStatus());
+        assertNull(validatorResponse.getMessage());
     }
 
     @Test
     void shouldReturnFalseWhenProvidedWithCodeOfNot16DigitLength() {
         when(lotteryService.existsById(1L)).thenReturn(true);
         participantRegisterDto.setCode("050220138570178"); // code length 15
-        boolean result1 = victim.validate(participantRegisterDto);
+        boolean result1 = victim.validate(participantRegisterDto).isStatus();
         assertFalse(result1);
 
         participantRegisterDto.setCode("05022013857017821"); // code length 17
-        boolean result2 = victim.validate(participantRegisterDto);
-        assertFalse(result2);
+        ValidatorResponse validatorResponse = victim.validate(participantRegisterDto);
+        assertFalse(validatorResponse.isStatus());
+        assertEquals("Code has to be 16 digits long", validatorResponse.getMessage());
     }
 
     @Test
     void shouldReturnFalseWhenNotProvidedWithValidLotteryId() {
         when(lotteryService.existsById(1L)).thenReturn(false);
-        boolean result = victim.validate(participantRegisterDto);
-        assertFalse(result);
+        ValidatorResponse validatorResponse = victim.validate(participantRegisterDto);
+        assertFalse(validatorResponse.isStatus());
+        assertEquals("Please provide participant with valid lottery id", validatorResponse.getMessage());
     }
 
     @Test
     void shouldReturnFalseWhenParticipantsAgeLowerThan21() {
         when(lotteryService.existsById(1L)).thenReturn(true);
         participantRegisterDto.setAge(20);
-        boolean result = victim.validate(participantRegisterDto);
-        assertFalse(result);
+        ValidatorResponse validatorResponse = victim.validate(participantRegisterDto);
+        assertFalse(validatorResponse.isStatus());
+        assertEquals("Participant has to be with over 21 to participate", validatorResponse.getMessage());
     }
 
     @Test
@@ -103,8 +106,9 @@ class ParticipantValidatorTest {
         when(lotteryService.getById(1L)).thenReturn(Optional.of(lottery));
         // simulates that code is in DB
         when(participantService.existsByCodeAndLotteryId(validCode, 1L)).thenReturn(true);
-        boolean result = victim.validate(participantRegisterDto);
-        assertFalse(result);
+        ValidatorResponse validatorResponse = victim.validate(participantRegisterDto);
+        assertFalse(validatorResponse.isStatus());
+        assertEquals("Code already has been registered", validatorResponse.getMessage());
     }
 
     @Test
@@ -119,8 +123,9 @@ class ParticipantValidatorTest {
                 .build();
         when(lotteryService.existsById(1L)).thenReturn(true);
         when(lotteryService.getById(1L)).thenReturn(Optional.of(lottery));
-        boolean result = victim.validate(participantRegisterDto);
-        assertFalse(result);
+        ValidatorResponse validatorResponse = victim.validate(participantRegisterDto);
+        assertFalse(validatorResponse.isStatus());
+        assertEquals("Please provide valid code", validatorResponse.getMessage());
     }
 
     @Test
@@ -134,22 +139,8 @@ class ParticipantValidatorTest {
         participantRegisterDto.setEmail("somethingVeryLongAndDifferent@tempmailer.com");
         when(lotteryService.existsById(1L)).thenReturn(true);
         when(lotteryService.getById(1L)).thenReturn(Optional.of(lottery));
-        boolean result = victim.validate(participantRegisterDto);
-        assertFalse(result);
-    }
-
-    private String generateValidDtoCode(String email) {
-        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("ddMMYY"));
-        String emailLength = String.format("%0,2d", email.length());
-        return date + emailLength + getRandom8DigitNumber();
-    }
-
-    private String getRandom8DigitNumber() {
-        double min = 10000000;
-        double max = 90000000;
-        Random random = new Random();
-        Double randomNumber = min + random.nextDouble() * max;
-        // returns 8 digits without comma
-        return String.format("%.0f", randomNumber);
+        ValidatorResponse validatorResponse = victim.validate(participantRegisterDto);
+        assertFalse(validatorResponse.isStatus());
+        assertEquals("Please provide valid code", validatorResponse.getMessage());
     }
 }

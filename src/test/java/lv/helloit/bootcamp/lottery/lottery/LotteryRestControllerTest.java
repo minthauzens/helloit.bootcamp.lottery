@@ -2,7 +2,6 @@ package lv.helloit.bootcamp.lottery.lottery;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.beans.HasProperty;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql("/schema-test.sql")
+@Sql("/test/schema-base.sql")
 public class LotteryRestControllerTest {
 
     @Autowired
@@ -48,6 +47,7 @@ public class LotteryRestControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.status").value("OK"))
                 .andReturn();
 
     }
@@ -118,6 +118,7 @@ public class LotteryRestControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.id").doesNotExist())
+                .andExpect(jsonPath("$.status").value("Fail"))
                 .andExpect(jsonPath("$.reason")
                         .value("Please provide valid lottery properties. Title has to be provided and limit has to be numeric and larger than 1"))
                 .andReturn();

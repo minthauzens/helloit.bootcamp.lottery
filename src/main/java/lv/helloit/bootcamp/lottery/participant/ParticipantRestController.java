@@ -23,19 +23,27 @@ public class ParticipantRestController {
     @PostMapping("/register")
     public ResponseEntity<String> registerParticipant(@Valid @RequestBody ParticipantRegisterDto participantDto,
                                                       BindingResult bindingResult) {
-        if (bindingResult.hasErrors() || !(participantValidator.validate(participantDto))) {
-            return new ResponseEntity<>("{\n" +
-                    "\"status\":  \"Fail\",\n" +
-                    "\"reason\": \"Please provide valid participant\"\n" +
-                    "}", HttpStatus.BAD_REQUEST);
-
+        String status = "OK";
+        String reason = null;
+        HttpStatus httpStatus = HttpStatus.CREATED;
+        if (bindingResult.hasErrors()) {
+            status = "Fail";
+            reason = bindingResult.getFieldErrors().get(0).getDefaultMessage();
+            httpStatus = HttpStatus.BAD_REQUEST;
         } else {
-            Participant participant = participantService.createParticipant(participantDto);
-            return new ResponseEntity<>("{\n" +
-                    "\"status\":  \"OK\",\n" +
-                    "\"id\": " + participant.getId() + "\n" +
-                    "}", HttpStatus.CREATED);
+            ValidatorResponse response = participantValidator.validate(participantDto);
+            if (!response.isStatus()) {
+                status = "Fail";
+                reason = response.getMessage();
+                httpStatus = HttpStatus.BAD_REQUEST;
+            } else {
+                Participant participant = participantService.createParticipant(participantDto);
+            }
         }
+        return new ResponseEntity<>("{\n" +
+                "\"status\":  \""+ status +"\",\n" +
+                "\"reason\":  \""+ reason +"\"\n" +
+                "}", httpStatus);
 
     }
 }

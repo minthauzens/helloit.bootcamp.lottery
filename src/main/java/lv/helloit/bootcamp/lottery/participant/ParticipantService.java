@@ -27,4 +27,8 @@ public class ParticipantService {
     public boolean existsByCodeAndLotteryId(String code, Long lotteryId){
         return participantDao.existsByCodeAndLotteryId(code, lotteryId);
     }
+
+    public int countParticipantsByLotteryId(Long lotteryId) {
+        return this.participantDao.countParticipantsByLotteryId(lotteryId);
+    }
 }
