@@ -24,10 +24,10 @@ public class LotteryRestController {
             @Valid @RequestBody LotteryRegistrationDto lotteryDto,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-//            String wrongField = bindingResult.getFieldErrors().get(0).getDefaultMessage();
+            String wrongField = bindingResult.getFieldErrors().get(0).getDefaultMessage();
             return new ResponseEntity<>("{\n" +
                     "\"status\":  \"Fail\",\n" +
-                    "\"reason\": \"Please provide valid lottery properties. Title has to be provided and limit has to be numeric and larger than 1\"\n" +
+                    "\"reason\": \""+ wrongField +"\"\n" +
                     "}", HttpStatus.BAD_REQUEST);
 
         } else {

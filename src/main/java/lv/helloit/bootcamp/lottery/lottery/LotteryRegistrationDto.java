@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 public class LotteryRegistrationDto {
     @NotBlank(message = "Cant be blank")
     private String title;
-    @NotNull
+    @NotNull(message = "has to be provided")
     @Max(value = Integer.MAX_VALUE, message = "Cant be larger than Integer.MAX_VALUE")
     @Min(value = 1, message = "Has to be an int and larger than 0")
     private int limit;

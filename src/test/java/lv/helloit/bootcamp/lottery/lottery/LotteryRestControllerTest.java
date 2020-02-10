@@ -119,8 +119,6 @@ public class LotteryRestControllerTest {
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.id").doesNotExist())
                 .andExpect(jsonPath("$.status").value("Fail"))
-                .andExpect(jsonPath("$.reason")
-                        .value("Please provide valid lottery properties. Title has to be provided and limit has to be numeric and larger than 1"))
                 .andReturn();
     }
 }
