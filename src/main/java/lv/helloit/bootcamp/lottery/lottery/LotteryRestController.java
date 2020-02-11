@@ -1,6 +1,6 @@
 package lv.helloit.bootcamp.lottery.lottery;
 
-import lv.helloit.bootcamp.lottery.ValidatorResponse;
+import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-import static lv.helloit.bootcamp.lottery.ResponseEntityFactory.*;
+import static lv.helloit.bootcamp.lottery.utils.ResponseEntityFactory.*;
 
 @RestController
 public class LotteryRestController {

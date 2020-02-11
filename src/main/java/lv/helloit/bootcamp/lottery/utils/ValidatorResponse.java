@@ -1,4 +1,4 @@
-package lv.helloit.bootcamp.lottery;
+package lv.helloit.bootcamp.lottery.utils;
 
 public class ValidatorResponse {
     private boolean status;

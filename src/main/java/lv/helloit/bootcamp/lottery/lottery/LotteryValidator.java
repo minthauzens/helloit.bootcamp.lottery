@@ -1,6 +1,6 @@
 package lv.helloit.bootcamp.lottery.lottery;
 
-import lv.helloit.bootcamp.lottery.ValidatorResponse;
+import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
 import lv.helloit.bootcamp.lottery.participant.Participant;
 import lv.helloit.bootcamp.lottery.participant.ParticipantService;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package lv.helloit.bootcamp.lottery;
+package lv.helloit.bootcamp.lottery.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
