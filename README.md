@@ -30,7 +30,8 @@ TASKS:
     implement lotteryEndDate that can be set in advance
         you can end registration now,
         or on some specific future date 
-
+    stop-registration testing
+    
 Future improvements:
     ParticipantValidator:
         Make participant validator (code validator) more efficient
@@ -59,3 +60,6 @@ Should learn:
 is application secure from multiple requests collisions
     i dont think so,
     validator checks if lottery has properties with one query, then with a different query the request is saved.
+
+Questions:
+    when should crudRepository save be used and when to write custom update query?

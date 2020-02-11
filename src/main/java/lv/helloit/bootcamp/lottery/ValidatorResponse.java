@@ -1,4 +1,4 @@
-package lv.helloit.bootcamp.lottery.participant;
+package lv.helloit.bootcamp.lottery;
 
 public class ValidatorResponse {
     private boolean status;
@@ -19,6 +19,7 @@ public class ValidatorResponse {
     public boolean isStatus() {
         return status;
     }
+    public boolean hasErrors() {return !status;}
 
     public String getMessage() {
         return message;

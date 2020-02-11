@@ -37,4 +37,9 @@ public class LotteryService {
     public Optional<Lottery> getById(Long id) {
         return this.lotteryDao.findById(id);
     }
+
+    public void stopRegistration(Long id) {
+        this.lotteryDao.updateEndDateById(id);
+    }
+
 }

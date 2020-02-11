@@ -3,6 +3,7 @@ package lv.helloit.bootcamp.lottery.participant;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class ParticipantService {
@@ -24,11 +25,27 @@ public class ParticipantService {
         return this.participantDao.save(participant);
     }
 
-    public boolean existsByCodeAndLotteryId(String code, Long lotteryId){
+    public boolean existsByCodeAndLotteryId(String code, Long lotteryId) {
         return participantDao.existsByCodeAndLotteryId(code, lotteryId);
     }
 
     public int countParticipantsByLotteryId(Long lotteryId) {
         return this.participantDao.countParticipantsByLotteryId(lotteryId);
+    }
+
+    public Participant chooseLotteryWinner(Long lotteryId) {
+        // lottery has to be stopped/closed before winner can be chosen
+        Participant participant = participantDao.findFirstByLotteryIdOrderByRandom(lotteryId);
+        setAndSaveWinnerStatus(participant);
+        return participant;
+    }
+
+    private void setAndSaveWinnerStatus(Participant participant) {
+        participant.setWinner(true);
+        participantDao.save(participant);
+    }
+
+    public Optional<Participant> findLotteryWinner(Long lotteryId) {
+        return participantDao.findByWinnerAndLotteryId(true, lotteryId);
     }
 }

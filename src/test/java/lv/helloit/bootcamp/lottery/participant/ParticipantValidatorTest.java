@@ -1,5 +1,6 @@
 package lv.helloit.bootcamp.lottery.participant;
 
+import lv.helloit.bootcamp.lottery.ValidatorResponse;
 import lv.helloit.bootcamp.lottery.lottery.Lottery;
 import lv.helloit.bootcamp.lottery.lottery.LotteryService;
 import org.junit.jupiter.api.BeforeEach;

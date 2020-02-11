@@ -30,5 +30,7 @@ public class Participant {
     private LocalDate registrationDate;
     @Column(name="lottery_id")
     private Long lotteryId;
+    @Column(columnDefinition = "boolean default false not null")
+    private boolean isWinner;
 
 }

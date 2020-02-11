@@ -1,5 +1,6 @@
 package lv.helloit.bootcamp.lottery.participant;
 
+import lv.helloit.bootcamp.lottery.ValidatorResponse;
 import lv.helloit.bootcamp.lottery.lottery.Lottery;
 import lv.helloit.bootcamp.lottery.lottery.LotteryService;
 import org.springframework.stereotype.Component;
@@ -25,15 +26,16 @@ public class ParticipantValidator {
         response = new ValidatorResponse();
         setParticipantRegisterDto(participantDto);
 
-        if (!isLotteryIdValid()) response.setStatusFalseWithMessage("Please provide participant with valid lottery id");
+        if (!isLotteryIdValid())
+            response.setStatusFalseWithMessage("Please provide participant with valid lottery id");
         else if (!isAgeAtLeast21())
             response.setStatusFalseWithMessage("Participant has to be with over 21 to participate");
-        else if (!isValidCode()) {
-            // want to test at this point the code, but response status and message has been filled in the validCode()
-        }
+        else if (!isValidCode())
+            return response; // returns here! to hide empty if warning
         else if (isLotteryLimitReached())
             response.setStatusFalseWithMessage("Lottery has reached its participant limit");
-        else if (hasLotteryEnded()) response.setStatusFalseWithMessage("Lottery registration period has ended");
+        else if (hasLotteryEnded())
+            response.setStatusFalseWithMessage("Lottery registration period has ended");
         return response;
     }
 
@@ -49,6 +51,7 @@ public class ParticipantValidator {
         if (count > limit) {
             throw new RuntimeException("PARTICIPANT COUNT CANT BE LARGER THAN LIMIT!");
             // what happens if limit is 0?
+            // cant happen because lotteryRegisterDto @min(value = 1)
         } else return count == limit;
     }
 
@@ -82,16 +85,18 @@ public class ParticipantValidator {
 
     private String generateFirstHalf() {
         Optional<Lottery> optionalLottery = lotteryService.getById(participantRegisterDto.getLotteryId());
-        // already tested if exists in existsById
+        // already tested if exists in existsById()
         if (optionalLottery.isEmpty()) {
             throw new RuntimeException("no valid lottery id provided");
         }
         this.lottery = optionalLottery.get();
         String lotteryStartDate = this.lottery.getStartDate().format(DateTimeFormatter.ofPattern("ddMMYY"));
 
-        // email  was validated to max length 99, so email length max length 2 digits;
+        // email was validated to max length 99, so email length max length 2 digits;
         String emailLength = String.format("%0,2d", participantRegisterDto.getEmail().length());
-
+        if (emailLength.length() > 2) {
+            throw new RuntimeException("Email length cant be longer than 2 digits");
+        }
         return lotteryStartDate + emailLength;
     }
 

@@ -25,11 +25,11 @@ create table participant
 	registration_date date not null,
 	lottery_id serial not null
 		constraint participant_lottery_id_fk
-			references lottery
+			references lottery,
+	is_winner boolean default false not null
 );
 
 alter table participant owner to "lotteryDBUser";
 
 create unique index participant_id_uindex
 	on participant (id);
-
