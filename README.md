@@ -46,6 +46,8 @@ Future improvements:
                 // had design issue where ValidatorResponse was defined in constructor not in validate method     
     LotteryRestControllerTest:
         tests for each error message in LotteryDto
+    Improved ResponseEntities:
+        use ObjectMapper instead of ResponseEntity< String>
 
 Known issues and limits:
     tests can fail if run at midnight, because the date could change between actions.

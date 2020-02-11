@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static lv.helloit.bootcamp.lottery.utils.ResponseEntityFactory.*;
+import static lv.helloit.bootcamp.lottery.utils.ResponseEntityBuilder.*;
 
 @RestController
 public class ParticipantRestController {

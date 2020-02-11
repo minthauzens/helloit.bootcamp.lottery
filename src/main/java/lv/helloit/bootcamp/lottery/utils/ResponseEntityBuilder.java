@@ -1,9 +1,13 @@
 package lv.helloit.bootcamp.lottery.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public class ResponseEntityFactory {
+import java.util.Map;
+
+public class ResponseEntityBuilder {
 
     public static ResponseEntity<String> createResponseEntityFail(String reason) {
         reason = "\"reason\":  \"" + reason + "\",\n";
@@ -30,5 +34,16 @@ public class ResponseEntityFactory {
 
     public static ResponseEntity<String> createResponseEntityOk(){
         return createResponseEntity("OK", HttpStatus.OK, null);
+    }
+
+    public static ResponseEntity<String> createResponseEntity(Object object, HttpStatus httpStatus) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = "";
+        try {
+            json = objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(json, httpStatus);
     }
 }
