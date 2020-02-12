@@ -22,6 +22,11 @@ public class ResponseEntityBuilder {
         return createResponseEntity("OK", HttpStatus.OK, idString);
     }
 
+    public static ResponseEntity<String> createResponseEntityOkWithId(Long id, HttpStatus status) {
+        String idString = "\"id\":  \"" + id + "\",\n";
+        return createResponseEntity("OK", status, idString);
+    }
+
     public static ResponseEntity<String> createResponseEntity(String status, HttpStatus httpStatus, String content) {
         String json = "{\n" +
                 "\"status\":  \"" + status + "\",\n" +

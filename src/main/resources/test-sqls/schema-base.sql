@@ -52,7 +52,7 @@ SELECT l.id,
        l.end_date,
        count(p.*) AS participants
 FROM lottery l
-         JOIN participant p ON p.lottery_id = l.id
+         LEFT JOIN participant p ON p.lottery_id = l.id
 GROUP BY l.id;
 
 alter table lottery_with_participant_count owner to "lotteryDBUserDev";

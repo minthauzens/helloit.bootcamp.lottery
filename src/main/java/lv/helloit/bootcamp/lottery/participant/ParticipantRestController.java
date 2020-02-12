@@ -44,8 +44,7 @@ public class ParticipantRestController {
             return createResponseEntityFail(response.getMessage());
         }
         Long id = participantService.createParticipant(participantDto);
-        return createResponseEntityOkWithId(id);
-
+        return createResponseEntityOkWithId(id, HttpStatus.CREATED);
     }
 
     @PostMapping("/choose-winner")

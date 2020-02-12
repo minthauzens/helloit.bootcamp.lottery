@@ -13,7 +13,8 @@ postgreSQL - for testing
     username:       lotteryDBUserDev
     password:       q4cqu&&AmbEV43q%
 
-    
+Difference between schema.sql and schema-base.sql are owners
+    additional security for production data.
 
 Security:
     Admin:

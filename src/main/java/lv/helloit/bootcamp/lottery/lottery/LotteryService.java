@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,8 +25,8 @@ public class LotteryService {
         return lotteryDao.save(lottery);
     }
 
-    public List<LotteryWithParticipantCountDto> getAllWithParticipantCount() {
-        List<LotteryWithParticipantCountDto> result = new ArrayList<>();
+    public ArrayList<LotteryWithParticipantCountDto> getAllWithParticipantCount() {
+        ArrayList<LotteryWithParticipantCountDto> result = new ArrayList<>();
         lotteryWithParticipantCountDao.findAll().forEach(result::add);
         return result;
     }

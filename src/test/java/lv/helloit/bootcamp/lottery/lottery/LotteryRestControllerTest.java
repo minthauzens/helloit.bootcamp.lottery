@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -68,6 +69,7 @@ public class LotteryRestControllerTest {
 
     private ArrayList<LotteryWithParticipantCountDto> getAllLotteries() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/stats"))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andReturn();

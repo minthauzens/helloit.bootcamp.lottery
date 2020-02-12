@@ -1,6 +1,7 @@
 package lv.helloit.bootcamp.lottery.lottery;
 
 import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.ArrayList;
 
 import static lv.helloit.bootcamp.lottery.utils.ResponseEntityBuilder.*;
 
@@ -36,11 +37,11 @@ public class LotteryRestController {
             return createResponseEntityFail(response.getMessage());
         }
         Lottery lottery = lotteryService.createLottery(lotteryDto);
-        return createResponseEntityOkWithId(lottery.getId());
+        return createResponseEntityOkWithId(lottery.getId(), HttpStatus.CREATED);
     }
 
     @GetMapping("/stats")
-    public List<LotteryWithParticipantCountDto> getAllWithParticipantCount() {
+    public ArrayList<LotteryWithParticipantCountDto> getAllWithParticipantCount() {
         return this.lotteryService.getAllWithParticipantCount();
     }
 
