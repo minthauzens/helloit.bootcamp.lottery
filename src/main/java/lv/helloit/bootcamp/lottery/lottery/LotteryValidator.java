@@ -1,8 +1,8 @@
 package lv.helloit.bootcamp.lottery.lottery;
 
-import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
 import lv.helloit.bootcamp.lottery.participant.Participant;
 import lv.helloit.bootcamp.lottery.participant.ParticipantService;
+import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -21,7 +21,7 @@ public class LotteryValidator {
 
     public ValidatorResponse validateForStopRegistration(LotteryIdDto lotteryIdDto) {
         response = new ValidatorResponse();
-        Optional<Lottery> optionalLottery = this.lotteryService.getById(lotteryIdDto.getId());
+        Optional<Lottery> optionalLottery = this.lotteryService.findById(lotteryIdDto.getId());
         if (optionalLottery.isEmpty()) {
             response.setStatusFalseWithMessage("Lottery with Id " + lotteryIdDto.getId() + " doesn't exist");
             return response;
@@ -34,7 +34,7 @@ public class LotteryValidator {
 
     public ValidatorResponse validateForChooseWinner(LotteryIdDto lotteryIdDto) {
         response = new ValidatorResponse();
-        Optional<Lottery> optionalLottery = this.lotteryService.getById(lotteryIdDto.getId());
+        Optional<Lottery> optionalLottery = this.lotteryService.findById(lotteryIdDto.getId());
         if (optionalLottery.isEmpty()) {
             response.setStatusFalseWithMessage("Lottery with Id " + lotteryIdDto.getId() + " doesn't exist");
             return response;
@@ -42,15 +42,15 @@ public class LotteryValidator {
         if (!isEndDateSet(optionalLottery.get())) {
             response.setStatusFalseWithMessage("Lottery registration hasn't been stopped!");
         }
-        doesLotteryHaveAWinner(optionalLottery.get().getId());
+        if (doesLotteryHaveAWinner(optionalLottery.get().getId())) {
+            response.setStatusFalseWithMessage("Lottery already has a winner");
+        }
         return response;
     }
 
-    private void doesLotteryHaveAWinner(Long id) {
-         Optional<Participant> optionalParticipant = participantService.findLotteryWinner(id);
-        if (optionalParticipant.isPresent()) {
-            response.setStatusFalseWithMessage("Lottery already has a winner");
-        }
+    private boolean doesLotteryHaveAWinner(Long id) {
+        Optional<Participant> optionalParticipant = participantService.findLotteryWinner(id);
+        return optionalParticipant.isPresent();
     }
 
     private boolean isEndDateSet(Lottery lottery) {

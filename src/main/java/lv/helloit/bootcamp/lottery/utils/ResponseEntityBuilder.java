@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Map;
-
 public class ResponseEntityBuilder {
 
     public static ResponseEntity<String> createResponseEntityFail(String reason) {
@@ -32,18 +30,7 @@ public class ResponseEntityBuilder {
         return new ResponseEntity<>(json, httpStatus);
     }
 
-    public static ResponseEntity<String> createResponseEntityOk(){
+    public static ResponseEntity<String> createResponseEntityOk() {
         return createResponseEntity("OK", HttpStatus.OK, null);
-    }
-
-    public static ResponseEntity<String> createResponseEntity(Object object, HttpStatus httpStatus) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = "";
-        try {
-            json = objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(json, httpStatus);
     }
 }

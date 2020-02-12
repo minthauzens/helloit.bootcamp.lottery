@@ -28,9 +28,9 @@ public class Participant {
     private String code;
     @Column(nullable = false, updatable = false)
     private LocalDate registrationDate;
-    @Column(name="lottery_id")
+    @Column(name = "lottery_id")
     private Long lotteryId;
     @Column(columnDefinition = "boolean default false not null")
-    private boolean isWinner;
+    private boolean winner;
 
 }

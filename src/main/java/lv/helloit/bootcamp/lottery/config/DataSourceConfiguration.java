@@ -27,6 +27,7 @@ public class DataSourceConfiguration {
         ds.setDriverClassName("org.postgresql.Driver");
         return ds;
     }
+
     @Bean
     @ConditionalOnProperty(name = "lottery.db.postgresql.enabled", havingValue = "false")
     DataSource dataSourceDev() {

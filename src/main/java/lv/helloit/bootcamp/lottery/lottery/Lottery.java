@@ -1,10 +1,7 @@
 package lv.helloit.bootcamp.lottery.lottery;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -28,4 +25,7 @@ public class Lottery {
     private LocalDate startDate;
     @Column
     private LocalDate endDate;
+    @Column
+    @ToString.Exclude
+    private boolean completed; // winner has been chosen
 }

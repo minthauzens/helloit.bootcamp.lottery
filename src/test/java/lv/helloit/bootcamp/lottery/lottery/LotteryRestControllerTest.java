@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasProperty;
@@ -59,20 +58,16 @@ public class LotteryRestControllerTest {
                 "}";
         registerLottery(jsonContent);
 
-        ArrayList<Lottery> lotteries = getAllLotteries();
+        ArrayList<LotteryWithParticipantCountDto> lotteries = getAllLotteries();
 
         assertFalse(lotteries.isEmpty());
         assertThat(lotteries, containsInAnyOrder(
                 hasProperty("title", is("Injection Lottery 2"))
         ));
-        assertThat(lotteries, containsInAnyOrder(
-                hasProperty("limit", is(12345))
-        ));
-
     }
 
-    private ArrayList<Lottery> getAllLotteries() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/status"))
+    private ArrayList<LotteryWithParticipantCountDto> getAllLotteries() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(get("/stats"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
@@ -85,14 +80,14 @@ public class LotteryRestControllerTest {
             }
 
             @Override
-            public int compareTo(TypeReference<ArrayList<Lottery>> o) {
+            public int compareTo(TypeReference<ArrayList<LotteryWithParticipantCountDto>> o) {
                 return super.compareTo(o);
             }
         });
     }
 
-    private ResultActions registerLottery(String jsonContent) throws Exception {
-        return mockMvc.perform(post("/start-registration")
+    private void registerLottery(String jsonContent) throws Exception {
+        mockMvc.perform(post("/start-registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonContent)
                 .accept(MediaType.APPLICATION_JSON));

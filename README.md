@@ -26,10 +26,7 @@ TASKS:
         because the code is valid, but lottery has reached its limit
             dont have test for that either
         or end_date has been set
-    LOGGING
-    implement lotteryEndDate that can be set in advance
-        you can end registration now,
-        or on some specific future date 
+    LOGGING 
     stop-registration testing
     
 Future improvements:
@@ -37,7 +34,6 @@ Future improvements:
         Make participant validator (code validator) more efficient
             refactor it. maybe put participantRegisterDto as class parameter.
             now takes a lot of multiple queries to get the result needed.
-        Improve empty else if in validate method()
         Add tests for consecutive validator examples
             valid comes after not valid
             false comes after valid
@@ -48,11 +44,12 @@ Future improvements:
         tests for each error message in LotteryDto
     Improved ResponseEntities:
         use ObjectMapper instead of ResponseEntity< String>
+    implement lotteryEndDate that can be set in advance
+            you can end registration now,
+            or on some specific future date
 
 Known issues and limits:
     tests can fail if run at midnight, because the date could change between actions.
-    participantRestController tests can also fail, if unlucky with code generator
-        remove randomness for last 8 digit creation
     cant participate more than Integer.MAX_VALUE participants in lotteries
     ResponseEntities only contain the first error message from bindingResults
 

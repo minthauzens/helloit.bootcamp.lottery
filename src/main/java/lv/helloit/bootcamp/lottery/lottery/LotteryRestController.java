@@ -35,9 +35,9 @@ public class LotteryRestController {
         return createResponseEntityOkWithId(lottery.getId());
     }
 
-    @GetMapping("/status")
-    public List<Lottery> getAll() {
-        return this.lotteryService.getAll();
+    @GetMapping("/stats")
+    public List<LotteryWithParticipantCountDto> getAllWithParticipantCount() {
+        return this.lotteryService.getAllWithParticipantCount();
     }
 
     @PostMapping("/stop-registration")

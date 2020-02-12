@@ -37,17 +37,10 @@ class ParticipantRestControllerTest {
         setTestingLottery();
     }
 
-//    @BeforeAll
-//    static void beforeAll() {
-//        LotteryRegistrationDto lotteryRegistrationDto = LotteryRegistrationDto.builder()
-//                .title("Participant Lottery SQL 1")
-//                .limit(5)
-//                .build();
-//        this.lotteryService.createLottery(lotteryRegistrationDto);
-//    }
-//    BEFORE ALL STATIC WHY?
-
     private void setTestingLottery() {
+        if (lottery != null) {
+            return;
+        }
         Optional<Lottery> optional = this.lotteryDao.findFirstByTitle("Participant Lottery SQL 1");
         if (optional.isPresent()) {
             this.lottery = optional.get();

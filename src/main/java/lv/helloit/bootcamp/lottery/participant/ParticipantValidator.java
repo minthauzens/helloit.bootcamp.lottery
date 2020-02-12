@@ -1,21 +1,22 @@
 package lv.helloit.bootcamp.lottery.participant;
 
-import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
+import lombok.extern.slf4j.Slf4j;
 import lv.helloit.bootcamp.lottery.lottery.Lottery;
 import lv.helloit.bootcamp.lottery.lottery.LotteryService;
+import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class ParticipantValidator {
     private final ParticipantService participantService;
     private final LotteryService lotteryService;
-
+    ValidatorResponse response;
     private ParticipantRegisterDto participantRegisterDto;
     private Lottery lottery;
-    ValidatorResponse response;
 
     public ParticipantValidator(ParticipantService participantService, LotteryService lotteryService) {
         this.participantService = participantService;
@@ -26,16 +27,17 @@ public class ParticipantValidator {
         response = new ValidatorResponse();
         setParticipantRegisterDto(participantDto);
 
-        if (!isLotteryIdValid())
+        if (!isLotteryIdValid()) {
             response.setStatusFalseWithMessage("Please provide participant with valid lottery id");
-        else if (!isAgeAtLeast21())
+        } else if (!isAgeAtLeast21()) {
             response.setStatusFalseWithMessage("Participant has to be with over 21 to participate");
-        else if (!isValidCode())
+        } else if (!isValidCode()) {
             return response; // returns here! to hide empty if warning
-        else if (isLotteryLimitReached())
+        } else if (isLotteryLimitReached()) {
             response.setStatusFalseWithMessage("Lottery has reached its participant limit");
-        else if (hasLotteryEnded())
+        } else if (hasLotteryEnded()) {
             response.setStatusFalseWithMessage("Lottery registration period has ended");
+        }
         return response;
     }
 
@@ -65,11 +67,14 @@ public class ParticipantValidator {
     }
 
     private boolean isValidCode() {
-        if (!isLength16()) response.setStatusFalseWithMessage("Code has to be 16 digits long");
-        else if (!isFirstHalfValid()) response.setStatusFalseWithMessage("Please provide valid code");
-        else if (participantService.existsByCodeAndLotteryId(participantRegisterDto.getCode(),
-                participantRegisterDto.getLotteryId()))
+        if (!isLength16()) {
+            response.setStatusFalseWithMessage("Code has to be 16 digits long");
+        } else if (!isFirstHalfValid()) {
+            response.setStatusFalseWithMessage("Please provide valid code");
+        } else if (participantService.existsByCodeAndLotteryId(participantRegisterDto.getCode(),
+                participantRegisterDto.getLotteryId())) {
             response.setStatusFalseWithMessage("Code already has been registered");
+        }
         return response.isStatus();
     }
 
@@ -84,7 +89,7 @@ public class ParticipantValidator {
     }
 
     private String generateFirstHalf() {
-        Optional<Lottery> optionalLottery = lotteryService.getById(participantRegisterDto.getLotteryId());
+        Optional<Lottery> optionalLottery = lotteryService.findById(participantRegisterDto.getLotteryId());
         // already tested if exists in existsById()
         if (optionalLottery.isEmpty()) {
             throw new RuntimeException("no valid lottery id provided");
@@ -103,6 +108,4 @@ public class ParticipantValidator {
     public void setParticipantRegisterDto(ParticipantRegisterDto participantRegisterDto) {
         this.participantRegisterDto = participantRegisterDto;
     }
-
-
 }

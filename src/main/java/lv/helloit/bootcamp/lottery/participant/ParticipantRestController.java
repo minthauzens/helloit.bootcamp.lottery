@@ -1,11 +1,13 @@
 package lv.helloit.bootcamp.lottery.participant;
 
-import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
 import lv.helloit.bootcamp.lottery.lottery.LotteryIdDto;
 import lv.helloit.bootcamp.lottery.lottery.LotteryService;
 import lv.helloit.bootcamp.lottery.lottery.LotteryValidator;
+import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +25,7 @@ public class ParticipantRestController {
 
     public ParticipantRestController(ParticipantService participantService,
                                      ParticipantValidator participantValidator,
-                                     LotteryValidator lotteryValidator,
-                                     LotteryService lotteryService) {
+                                     LotteryValidator lotteryValidator, LotteryService lotteryService) {
         this.participantService = participantService;
         this.participantValidator = participantValidator;
         this.lotteryValidator = lotteryValidator;
@@ -42,8 +43,8 @@ public class ParticipantRestController {
         if (response.hasErrors()) {
             return createResponseEntityFail(response.getMessage());
         }
-        Participant participant = participantService.createParticipant(participantDto);
-        return createResponseEntityOkWithId(participant.getId());
+        Long id = participantService.createParticipant(participantDto);
+        return createResponseEntityOkWithId(id);
 
     }
 
@@ -59,7 +60,17 @@ public class ParticipantRestController {
         }
 
         Participant participant = this.participantService.chooseLotteryWinner(lotteryIdDto.getId());
+        this.lotteryService.setLotteryCompleted(lotteryIdDto.getId());
         String winnerCode = participant.getCode();
         return createResponseEntityOkWithWinnerCode(winnerCode);
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<String> getParticipantStatus(@Valid ParticipantStatusDto participantStatusDto,
+                                                       BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>("\"status\": \"ERROR\"", HttpStatus.BAD_REQUEST);
+        }
+        return this.participantService.getParticipantStatus(participantStatusDto);
     }
 }

@@ -55,7 +55,7 @@ class ParticipantValidatorTest {
                 .build();
         // simulation that lottery with such id exists
         when(lotteryService.existsById(1L)).thenReturn(true);
-        when(lotteryService.getById(1L)).thenReturn(Optional.of(lottery));
+        when(lotteryService.findById(1L)).thenReturn(Optional.of(lottery));
         // simulates that code is not in DB
         when(participantService.existsByCodeAndLotteryId(validCode, 1L)).thenReturn(false);
         when(participantService.countParticipantsByLotteryId(1L)).thenReturn(0);
@@ -111,7 +111,7 @@ class ParticipantValidatorTest {
                 .limit(5)
                 .build();
         when(lotteryService.existsById(1L)).thenReturn(true);
-        when(lotteryService.getById(1L)).thenReturn(Optional.of(lottery));
+        when(lotteryService.findById(1L)).thenReturn(Optional.of(lottery));
         when(participantService.existsByCodeAndLotteryId(validCode, 1L)).thenReturn(true);
 
         ValidatorResponse validatorResponse = victim.validate(participantRegisterDto);
@@ -131,7 +131,7 @@ class ParticipantValidatorTest {
                 .limit(5)
                 .build();
         when(lotteryService.existsById(1L)).thenReturn(true);
-        when(lotteryService.getById(1L)).thenReturn(Optional.of(lottery));
+        when(lotteryService.findById(1L)).thenReturn(Optional.of(lottery));
 
         ValidatorResponse validatorResponse = victim.validate(participantRegisterDto);
 
@@ -149,7 +149,7 @@ class ParticipantValidatorTest {
                 .build();
         participantRegisterDto.setEmail("somethingVeryLongAndDifferent@tempmailer.com");
         when(lotteryService.existsById(1L)).thenReturn(true);
-        when(lotteryService.getById(1L)).thenReturn(Optional.of(lottery));
+        when(lotteryService.findById(1L)).thenReturn(Optional.of(lottery));
 
         ValidatorResponse validatorResponse = victim.validate(participantRegisterDto);
 
@@ -166,7 +166,7 @@ class ParticipantValidatorTest {
                 .limit(1)
                 .build();
         when(lotteryService.existsById(1L)).thenReturn(true);
-        when(lotteryService.getById(1L)).thenReturn(Optional.of(lottery));
+        when(lotteryService.findById(1L)).thenReturn(Optional.of(lottery));
         when(participantService.existsByCodeAndLotteryId(validCode, 1L)).thenReturn(false);
         when(participantService.countParticipantsByLotteryId(1L)).thenReturn(1);
 
@@ -185,7 +185,7 @@ class ParticipantValidatorTest {
                 .limit(2)
                 .build();
         when(lotteryService.existsById(1L)).thenReturn(true);
-        when(lotteryService.getById(1L)).thenReturn(Optional.of(lottery));
+        when(lotteryService.findById(1L)).thenReturn(Optional.of(lottery));
         when(participantService.existsByCodeAndLotteryId(validCode, 1L)).thenReturn(false);
         when(participantService.countParticipantsByLotteryId(1L)).thenReturn(0);
 

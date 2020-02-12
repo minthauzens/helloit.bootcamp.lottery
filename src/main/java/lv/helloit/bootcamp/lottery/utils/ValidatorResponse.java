@@ -8,9 +8,11 @@ public class ValidatorResponse {
         this.status = status;
         this.message = message;
     }
+
     public ValidatorResponse() {
         this.status = true;
     }
+
     public ValidatorResponse(String message) {
         this.status = false;
         this.message = message;
@@ -19,21 +21,17 @@ public class ValidatorResponse {
     public boolean isStatus() {
         return status;
     }
-    public boolean hasErrors() {return !status;}
+
+    public boolean hasErrors() {
+        return !status;
+    }
 
     public String getMessage() {
         return message;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
     public void setStatusFalseWithMessage(String message) {
         this.status = false;
-        this.message = message;
-    }
-
-    public void setMessage(String message) {
         this.message = message;
     }
 }
