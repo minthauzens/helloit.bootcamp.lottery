@@ -31,6 +31,10 @@ public class LotteryRestController {
             String reason = bindingResult.getFieldErrors().get(0).getDefaultMessage();
             return createResponseEntityFail(reason);
         }
+        ValidatorResponse response = lotteryValidator.validateForRegistration(lotteryDto);
+        if (response.hasErrors()) {
+            return createResponseEntityFail(response.getMessage());
+        }
         Lottery lottery = lotteryService.createLottery(lotteryDto);
         return createResponseEntityOkWithId(lottery.getId());
     }

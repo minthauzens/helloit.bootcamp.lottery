@@ -18,6 +18,13 @@ public class LotteryValidator {
         this.lotteryService = lotteryService;
         this.participantService = participantService;
     }
+    public ValidatorResponse validateForRegistration(LotteryRegistrationDto lotteryRegistrationDto) {
+        response = new ValidatorResponse();
+        if (lotteryService.existsByTitle(lotteryRegistrationDto.getTitle())) {
+            response.setStatusFalseWithMessage("Lottery with such title already exists");
+        }
+        return response;
+    }
 
     public ValidatorResponse validateForStopRegistration(LotteryIdDto lotteryIdDto) {
         response = new ValidatorResponse();

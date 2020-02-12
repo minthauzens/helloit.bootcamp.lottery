@@ -62,3 +62,5 @@ is application secure from multiple requests collisions
 
 Questions:
     when should crudRepository save be used and when to write custom update query?
+    what errors should i throw, if i have already validated for the possible cause, so if they use my methods in correct
+        order, the error should never be thrown. how to design the project structure for it.

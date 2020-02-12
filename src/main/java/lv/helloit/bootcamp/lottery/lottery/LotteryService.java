@@ -41,7 +41,13 @@ public class LotteryService {
     }
 
     public void stopRegistration(Long id) {
-        this.lotteryDao.updateEndDateById(id);
+        Optional<Lottery> optionalLottery = this.lotteryDao.findById(id);
+        if (optionalLottery.isEmpty()) {
+            throw new RuntimeException("Lottery with such id doesn't exist");
+        }
+        Lottery lottery = optionalLottery.get();
+        lottery.setEndDate(LocalDate.now());
+        this.lotteryDao.save(lottery);
     }
 
     public void setLotteryCompleted(Long id) {
@@ -52,5 +58,9 @@ public class LotteryService {
         Lottery lottery = optionalLottery.get();
         lottery.setCompleted(true);
         lotteryDao.save(lottery);
+    }
+
+    public boolean existsByTitle(String title) {
+        return this.lotteryDao.existsByTitle(title);
     }
 }
