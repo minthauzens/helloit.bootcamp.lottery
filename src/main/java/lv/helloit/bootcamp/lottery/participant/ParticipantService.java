@@ -78,4 +78,8 @@ public class ParticipantService {
         String status = (participant.isWinner()) ? "WIN" : "LOOSE";
         return new ResponseEntity<>("\"status\": \"" + status + "\"", HttpStatus.OK);
     }
+
+    public boolean existsByLotteryId(Long lotteryId) {
+        return this.participantDao.existsByLotteryId(lotteryId);
+    }
 }

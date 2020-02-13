@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.ArrayList;
 
-import static lv.helloit.bootcamp.lottery.utils.ResponseEntityBuilder.*;
+import static lv.helloit.bootcamp.lottery.utils.ResponseEntityBuilder.createResponseEntityFail;
+import static lv.helloit.bootcamp.lottery.utils.ResponseEntityBuilder.createResponseEntityOkWithId;
 
 @RestController
 public class LotteryRestController {
@@ -57,6 +58,6 @@ public class LotteryRestController {
             return createResponseEntityFail(response.getMessage());
         }
         this.lotteryService.stopRegistration(lotteryIdDto.getId());
-        return createResponseEntityOk();
+        return new ResponseEntity<>("{\"status\": \"OK\"}", HttpStatus.OK);
     }
 }

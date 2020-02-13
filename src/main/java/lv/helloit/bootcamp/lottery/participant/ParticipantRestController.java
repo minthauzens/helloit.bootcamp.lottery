@@ -57,7 +57,9 @@ public class ParticipantRestController {
         if (response.hasErrors()) {
             return createResponseEntityFail(response.getMessage());
         }
-
+        if (!(this.participantService.existsByLotteryId(lotteryIdDto.getId()))) {
+            return createResponseEntityFail("This lottery has no participants!");
+        }
         Participant participant = this.participantService.chooseLotteryWinner(lotteryIdDto.getId());
         this.lotteryService.setLotteryCompleted(lotteryIdDto.getId());
         String winnerCode = participant.getCode();

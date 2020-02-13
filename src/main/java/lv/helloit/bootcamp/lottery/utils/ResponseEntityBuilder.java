@@ -8,22 +8,22 @@ import org.springframework.http.ResponseEntity;
 public class ResponseEntityBuilder {
 
     public static ResponseEntity<String> createResponseEntityFail(String reason) {
-        reason = "\"reason\":  \"" + reason + "\",\n";
+        reason = "\"reason\":  \"" + reason + "\"\n";
         return createResponseEntity("Fail", HttpStatus.BAD_REQUEST, reason);
     }
 
     public static ResponseEntity<String> createResponseEntityOkWithWinnerCode(String winnerCode) {
-        winnerCode = "\"winnerCode\":  \"" + winnerCode + "\",\n";
+        winnerCode = "\"winnerCode\":  \"" + winnerCode + "\"\n";
         return createResponseEntity("OK", HttpStatus.OK, winnerCode);
     }
 
     public static ResponseEntity<String> createResponseEntityOkWithId(Long id) {
-        String idString = "\"id\":  \"" + id + "\",\n";
+        String idString = "\"id\":  \"" + id + "\"\n";
         return createResponseEntity("OK", HttpStatus.OK, idString);
     }
 
     public static ResponseEntity<String> createResponseEntityOkWithId(Long id, HttpStatus status) {
-        String idString = "\"id\":  \"" + id + "\",\n";
+        String idString = "\"id\":  \"" + id + "\"\n";
         return createResponseEntity("OK", status, idString);
     }
 

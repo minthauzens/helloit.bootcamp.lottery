@@ -18,4 +18,6 @@ public interface ParticipantDao extends CrudRepository<Participant, String> {
     Optional<Participant> findByWinnerAndLotteryId(boolean winner, Long lotteryId);
 
     Optional<Participant> findByEmailAndCodeAndLotteryId(String email, String code, Long lotteryId);
+
+    boolean existsByLotteryId(Long lotteryId);
 }
