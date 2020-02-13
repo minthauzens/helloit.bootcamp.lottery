@@ -4,6 +4,7 @@ import lv.helloit.bootcamp.lottery.lottery.Lottery;
 import lv.helloit.bootcamp.lottery.lottery.LotteryDao;
 import lv.helloit.bootcamp.lottery.lottery.LotteryRegistrationDto;
 import lv.helloit.bootcamp.lottery.lottery.LotteryService;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Optional;
 
 import static lv.helloit.bootcamp.lottery.participant.ParticipantNumberGenerator.generateValidDtoCodeFirstHalf;
 import static lv.helloit.bootcamp.lottery.participant.ParticipantNumberGenerator.longTo8digitString;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -144,6 +148,7 @@ class ParticipantRestControllerTest {
                 .andExpect(jsonPath("$.reason").value("Lottery registration hasn't been stopped!"))
                 .andReturn();
     }
+
     @Test
     void shouldFailChooseWinnerWhenWinnerAlreadyChosen() throws Exception {
         for (int i = 0; i < 2; i++) {
@@ -175,7 +180,90 @@ class ParticipantRestControllerTest {
                 .andExpect(jsonPath("$.status").value("Fail"))
                 .andExpect(jsonPath("$.reason").value("This lottery has no participants!"))
                 .andReturn();
+    }
 
+    @Test
+    void shouldReceiveStatusPending() throws Exception {
+        String url = getUrlForStatusAndRegisterParticipant();
+        mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/plain;charset=UTF-8"))
+                .andExpect(content().string("\"status\": \"PENDING\""))
+                .andReturn();
+    }
+
+    @Test
+    void shouldReceiveStatusWin() throws Exception {
+        String url = getUrlForStatusAndRegisterParticipant();
+
+        this.lotteryService.stopRegistration(this.lottery.getId());
+        String json = "{\"id\": \"" + this.lottery.getId() + "\"\n}";
+        performPost(json, "/choose-winner")
+                .andReturn();
+
+        mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/plain;charset=UTF-8"))
+                .andExpect(content().string("\"status\": \"WIN\""))
+                .andReturn();
+    }
+
+    @Test
+    void shouldHaveStatusLoose() throws Exception {
+        String url1 = getUrlForStatusAndRegisterParticipant(1);
+        String url2 = getUrlForStatusAndRegisterParticipant(2);
+
+        this.lotteryService.stopRegistration(this.lottery.getId());
+        String json = "{\"id\": \"" + this.lottery.getId() + "\"\n}";
+        performPost(json, "/choose-winner")
+                .andReturn();
+
+        MvcResult mvcResult1 = mockMvc.perform(get(url1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/plain;charset=UTF-8"))
+                .andReturn();
+        MvcResult mvcResult2 = mockMvc.perform(get(url2))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/plain;charset=UTF-8"))
+                .andReturn();
+
+        String status1 = mvcResult1.getResponse().getContentAsString();
+        String status2 = mvcResult2.getResponse().getContentAsString();
+        String status3 = status1 + status2;
+        assertThat(status3.contains("WIN"));
+        assertThat(status3.contains("LOOSE"));
+
+    }
+
+    @Test
+    void shouldReturnErrorWhenLotteryDoesntExist() throws Exception {
+        String participantJson = getJsonToRegisterParticipant(counter);
+        JSONObject jsonObject = new JSONObject(participantJson);
+        String email = jsonObject.getString("email");
+        String code = jsonObject.getString("code");
+        long id = 9999L; // no lottery with such id exists
+        performPost(participantJson, "/register");
+        String url = "/status?id=" + id + "&email=" + email + "&code=" + code;
+        mockMvc.perform(get(url))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("text/plain;charset=UTF-8"))
+                .andExpect(content().string("\"status\": \"ERROR\""))
+                .andReturn();
+    }
+
+
+    private String getUrlForStatusAndRegisterParticipant() throws Exception {
+        return getUrlForStatusAndRegisterParticipant(counter);
+    }
+
+    private String getUrlForStatusAndRegisterParticipant(int number) throws Exception {
+        String participantJson = getJsonToRegisterParticipant(number);
+        JSONObject jsonObject = new JSONObject(participantJson);
+        String email = jsonObject.getString("email");
+        String code = jsonObject.getString("code");
+        long id = jsonObject.getLong("id");
+        performPost(participantJson, "/register");
+        return "/status?id=" + id + "&email=" + email + "&code=" + code;
     }
 
     private ResultActions performPost(String json, String url) throws Exception {

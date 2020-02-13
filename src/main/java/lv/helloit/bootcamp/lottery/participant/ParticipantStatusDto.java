@@ -25,4 +25,8 @@ public class ParticipantStatusDto {
     @NotBlank(message = "code has to be provided")
     @Digits(integer = 16, fraction = 0, message = "The code must be consisting of 16 digits")
     private String code;
+
+    public void setId(long lotteryId) {
+        this.lotteryId = lotteryId;
+    }
 }
