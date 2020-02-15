@@ -3,6 +3,7 @@ package lv.helloit.bootcamp.lottery.participant;
 import lombok.extern.slf4j.Slf4j;
 import lv.helloit.bootcamp.lottery.lottery.Lottery;
 import lv.helloit.bootcamp.lottery.lottery.LotteryService;
+import lv.helloit.bootcamp.lottery.utils.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -62,11 +63,12 @@ public class ParticipantService {
                 participantStatusDto.getLotteryId());
     }
 
-    public ResponseEntity<String> getParticipantStatus(ParticipantStatusDto participantStatusDto) {
+    public Response getParticipantStatus(ParticipantStatusDto participantStatusDto) {
         Optional<Participant> optionalParticipant = findByEmailAndCodeAndLotteryId(participantStatusDto);
         if (optionalParticipant.isEmpty()) {
-            log.info("Participant doesn't exist in DB; " + participantStatusDto);
-            return new ResponseEntity<>("\"status\": \"ERROR\"", HttpStatus.BAD_REQUEST);
+            String message = "Participant doesn't exist in DB; " + participantStatusDto;
+            log.info(message);
+            return new Response(false, message, HttpStatus.BAD_REQUEST);
         }
         Participant participant = optionalParticipant.get();
         Optional<Lottery> optionalLottery = this.lotteryService.findById(participant.getLotteryId());
@@ -75,12 +77,13 @@ public class ParticipantService {
             throw new RuntimeException("DB Error, got participant with invalid lottery id");
         }
         if (!optionalLottery.get().isCompleted()) {
-            log.info("Lottery hasn't been completed, participant status - pending");
-            return new ResponseEntity<>("\"status\": \"PENDING\"", HttpStatus.OK);
+            String message = "Lottery hasn't been completed, participant status - pending";
+            log.info(message);
+            return new Response(true,"PENDING", HttpStatus.OK);
         }
-        String status = (participant.isWinner()) ? "WIN" : "LOOSE";
-        log.info("the participant status: " + status);
-        return new ResponseEntity<>("\"status\": \"" + status + "\"", HttpStatus.OK);
+        String participantStatus = (participant.isWinner()) ? "WIN" : "LOOSE";
+        log.info("the participant status: " + participantStatus);
+        return new Response(true, participantStatus, HttpStatus.OK);
     }
 
     public boolean existsByLotteryId(Long lotteryId) {
