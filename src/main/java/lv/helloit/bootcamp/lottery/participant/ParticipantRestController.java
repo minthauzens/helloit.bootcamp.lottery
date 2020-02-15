@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import lv.helloit.bootcamp.lottery.lottery.LotteryIdDto;
 import lv.helloit.bootcamp.lottery.lottery.LotteryService;
 import lv.helloit.bootcamp.lottery.lottery.LotteryValidator;
+import lv.helloit.bootcamp.lottery.utils.Response;
 import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,6 +86,10 @@ public class ParticipantRestController {
             return new ResponseEntity<>("\"status\": \"ERROR\"", HttpStatus.BAD_REQUEST);
         }
         log.info("Returning info");
-        return this.participantService.getParticipantStatus(participantStatusDto);
+        Response response = this.participantService.getParticipantStatus(participantStatusDto);
+        if (response.hasErrors()) {
+            return new ResponseEntity<>("\"status\": \"ERROR\"", response.getHttpStatus());
+        }
+        return new ResponseEntity<>("\"status\": \"" + response.getMessage() + "\"", response.getHttpStatus());
     }
 }

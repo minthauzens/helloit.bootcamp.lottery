@@ -1,19 +1,16 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:fragment="headerFiles">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Header</title>
-    <div th:fragment="header-css">
-        <!-- this is header-css -->
-        <link rel="stylesheet" type="text/css"
-              th:href="@{~/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}"/>
+    <!-- this is header-css -->
+    <link rel="stylesheet" type="text/css"
+          th:href="@{~/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}"/>
 
-        <link rel="stylesheet" th:href="@{/css/main.css}"
-              href="../../css/main.css"/>
-    </div>
+    <link rel="stylesheet" th:href="@{/css/main.css}"
+          href="../../css/main.css"/>
 </head>
 <body>
 <div th:fragment="navbar">

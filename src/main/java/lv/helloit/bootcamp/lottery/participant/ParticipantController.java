@@ -1,5 +1,6 @@
 package lv.helloit.bootcamp.lottery.participant;
 
+import lv.helloit.bootcamp.lottery.utils.Response;
 import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ public class ParticipantController {
 
     @GetMapping("/public/register")
     public String registerParticipant(Model model) {
+        model.addAttribute("participantRegisterDto", new ParticipantRegisterDto());
         return "register-participant";
     }
 
@@ -37,7 +39,7 @@ public class ParticipantController {
             String wrongField = bindingResult.getFieldErrors().get(0).getField();
             model.addAttribute(wrongField + "_err", true);
 
-            model.addAttribute("participantDto", participantRegisterDto);
+            model.addAttribute("participantRegisterDto", participantRegisterDto);
             return "register-participant";
         }
         ValidatorResponse response = this.participantValidator.validate(participantRegisterDto);
@@ -52,6 +54,7 @@ public class ParticipantController {
 
     @GetMapping("/public/status")
     public String getParticipantStatus(Model model) {
+        model.addAttribute("participantStatusDto", new ParticipantStatusDto());
         return "status";
     }
 
@@ -62,12 +65,14 @@ public class ParticipantController {
         if (bindingResult.hasErrors()) {
             String wrongField = bindingResult.getFieldErrors().get(0).getField();
             model.addAttribute(wrongField + "_err", true);
-
             model.addAttribute("participantStatusDto", participantStatusDto);
-            return "register-participant";
         }
-        ResponseEntity<String> responseEntity = this.participantService.getParticipantStatus(participantStatusDto);
-        model.addAttribute("participant_status", responseEntity.getBody());
+        Response response = this.participantService.getParticipantStatus(participantStatusDto);
+        if (response.hasErrors()) {
+            model.addAttribute("error_message", response.getMessage());
+        } else {
+            model.addAttribute("participant_status", response.getMessage());
+        }
         return "status";
     }
 }

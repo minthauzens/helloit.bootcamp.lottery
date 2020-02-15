@@ -1,38 +1,54 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Participant Status</title>
-    <div th:replace="header :: header-css"></div>
+    <!--/*/ <th:block th:include="header.html :: headerFiles">
+        </th:block> /*/-->
 </head>
 <body>
 <div th:replace="header :: navbar"></div>
 <div th:fragment="content" class="container">
     <div class="row">
         <div class="col">
+            <div th:if="${error_message}" th:text="${error_message}" class="alert alert-danger" role="alert">
             </div>
-            <form action="#" th:action="@{/public/status}" th:object="${participantStatusDto}" method="post">
+            <form action="#"
+                  th:action="@{/public/status}"
+                  th:object="${participantStatusDto}"
+                  method="post">
                 <div class="form-group">
+                    <div th:if="${#fields.hasErrors('lotteryId')}" th:errors="*{lotteryId}" class="alert alert-danger"
+                         role="alert">
+                    </div>
                     <label for="inputLotteryId">Lottery id</label>
-                    <input name="lotteryId" th:value="${participantStatusDto?.lotteryId}" type="number" class="form-control"
+                    <input name="lotteryId" th:value="*{lotteryId}" type="number" class="form-control"
                            id="inputLotteryId" aria-describedby="emailHelp" placeholder="Lottery id">
                 </div>
                 <div class="form-group">
+                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger"
+                         role="alert">
+                    </div>
                     <label for="inputEmail">Email address</label>
-                    <input name="email" th:value="${participantStatusDto?.email}" type="email" class="form-control"
+                    <input name="email" th:value="*{email}" type="email" class="form-control"
                            id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
                 </div>
                 <div class="form-group">
+                    <div th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="alert alert-danger"
+                         role="alert">
+                    </div>
                     <label for="inputCode">Unique Code</label>
-                    <input name="code" th:value="${participantStatusDto?.code}" type="text" class="form-control"
+                    <input name="code" th:value="*{code}" type="text" class="form-control"
                            id="inputCode"
                            placeholder="Code">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="participant_status" th:if="${participant_status}"
+                 th:text="${'Your status is: ' + participant_status}"></div>
         </div>
     </div>
 </div>
