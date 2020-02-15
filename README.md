@@ -18,17 +18,12 @@ Difference between schema.sql and schema-base.sql are owners
 
 Security:
     Admin:
-        username:
-        password:
+        username: lottery
+        password: q1w2e3r4
+        base64 (lottery:q1w2e3r4): bG90dGVyeTpxMXcyZTNyNA==
         
 TASKS:
-    /stats need to add participants count
-    need to test for lottery participant limit, for participant saving (i dont think it is a validators job)
-        because the code is valid, but lottery has reached its limit
-            dont have test for that either
-        or end_date has been set
     LOGGING 
-    stop-registration testing
     
 Future improvements:
     ParticipantValidator:

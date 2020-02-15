@@ -1,6 +1,5 @@
 package lv.helloit.bootcamp.lottery.participant;
 
-import lombok.extern.slf4j.Slf4j;
 import lv.helloit.bootcamp.lottery.lottery.Lottery;
 import lv.helloit.bootcamp.lottery.lottery.LotteryService;
 import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
@@ -10,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Component
-@Slf4j
 public class ParticipantValidator {
     private final ParticipantService participantService;
     private final LotteryService lotteryService;
