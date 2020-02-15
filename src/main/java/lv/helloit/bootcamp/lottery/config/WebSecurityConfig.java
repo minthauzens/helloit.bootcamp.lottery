@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/register", "/stats").permitAll()
+                .antMatchers("/register", "/status").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
@@ -53,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("lottery")
                 .password("{noop}q1w2e3r4")
                 .roles("USER");
+        // encoding Base64: lottery:q1w2e3r4 -> bG90dGVyeTpxMXcyZTNyNA==
     }
 
 }
