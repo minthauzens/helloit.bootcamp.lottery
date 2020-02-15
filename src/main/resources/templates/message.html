@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="success">
+    <div th:if="${(param.success_message != null)}" th:text="${param.success_message}" class="alert alert-success" role="alert">
+    </div>
+</div>
+<div th:fragment="error">
+    <div th:if="${(param.error_message != null)}" th:text="${param.error_message}" class="alert alert-danger" role="alert">
+    </div>
+</div>
+</body>
+</html>

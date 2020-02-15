@@ -1,17 +1,14 @@
 package lv.helloit.bootcamp.lottery.lottery;
 
-import lv.helloit.bootcamp.lottery.participant.ParticipantRestController;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class LotteryService {
-    private static final Logger LOGGER = LogManager.getLogger(LotteryService.class);
     private final LotteryDao lotteryDao;
     private final LotteryWithParticipantCountDao lotteryWithParticipantCountDao;
 
@@ -26,7 +23,7 @@ public class LotteryService {
                 .limit(lotteryRegistrationDto.getLimit())
                 .startDate(LocalDate.now())
                 .build();
-        LOGGER.info("Saving: " + lottery);
+        log.info("Saving: " + lottery);
         return lotteryDao.save(lottery);
     }
 
@@ -47,12 +44,12 @@ public class LotteryService {
     public void stopRegistration(Long id) {
         Optional<Lottery> optionalLottery = this.lotteryDao.findById(id);
         if (optionalLottery.isEmpty()) {
-            LOGGER.error("Lottery with such id doesn't exist, should have been already tested for it in validator");
+            log.error("Lottery with such id doesn't exist, should have been already tested for it in validator");
             throw new RuntimeException("Lottery with such id doesn't exist");
         }
         Lottery lottery = optionalLottery.get();
         lottery.setEndDate(LocalDate.now());
-        LOGGER.info("Stopping registration: Lottery.id = " + lottery.getId());
+        log.info("Stopping registration: Lottery.id = " + lottery.getId());
         this.lotteryDao.save(lottery);
     }
 
@@ -63,7 +60,7 @@ public class LotteryService {
         }
         Lottery lottery = optionalLottery.get();
         lottery.setCompleted(true);
-        LOGGER.info("Setting completed: Lottery.id = " + lottery.getId());
+        log.info("Setting completed: Lottery.id = " + lottery.getId());
         lotteryDao.save(lottery);
     }
 

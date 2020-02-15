@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Participant Status</title>
+    <div th:replace="header :: header-css"></div>
+</head>
+<body>
+<div th:replace="header :: navbar"></div>
+<div th:fragment="content" class="container">
+    <div class="row">
+        <div class="col">
+            </div>
+            <form action="#" th:action="@{/public/status}" th:object="${participantStatusDto}" method="post">
+                <div class="form-group">
+                    <label for="inputLotteryId">Lottery id</label>
+                    <input name="lotteryId" th:value="${participantStatusDto?.lotteryId}" type="number" class="form-control"
+                           id="inputLotteryId" aria-describedby="emailHelp" placeholder="Lottery id">
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail">Email address</label>
+                    <input name="email" th:value="${participantStatusDto?.email}" type="email" class="form-control"
+                           id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="inputCode">Unique Code</label>
+                    <input name="code" th:value="${participantStatusDto?.code}" type="text" class="form-control"
+                           id="inputCode"
+                           placeholder="Code">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
