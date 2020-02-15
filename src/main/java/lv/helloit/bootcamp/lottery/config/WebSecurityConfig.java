@@ -28,12 +28,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/register", "/status", "/", "/public/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
+                    .antMatchers( "/", "/public/**").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
                 .httpBasic()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    .and()
+                .formLogin()
+                .loginPage("/login.html").permitAll()
+                    .defaultSuccessUrl("/")
+                    .failureUrl("/login?error=true")
+                    .and()
+                .logout()
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .logoutSuccessUrl("/")
+                    .permitAll()
+                    .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        ;
     }
 
     private void configureForTests(HttpSecurity http) throws Exception {

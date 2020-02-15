@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lottery</title>
+    <!--/*/ <th:block th:include="header.html :: headerFiles">
+        </th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div style="margin-top: 30px;"></div>
+            <div th:if="${loginError}" class="alert alert-danger" role="alert">
+                NOT VALID CREDENTIALS!
+            </div>
+            <form action="#" th:action="@{/login}" method="post">
+                <div><label> User Name : <input type="text" name="username"/> </label></div>
+                <div><label> Password: <input type="password" name="password"/> </label></div>
+                <div><input type="submit" class="btn btn-primary" value="Sign In"/></div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
