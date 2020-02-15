@@ -13,8 +13,8 @@ import java.util.Optional;
 @Controller()
 public class LotteryController {
 
-    @GetMapping("/")
-    public String index(Model model) {
+    @GetMapping("/public/")
+    public String index() {
         return "index";
     }
 
