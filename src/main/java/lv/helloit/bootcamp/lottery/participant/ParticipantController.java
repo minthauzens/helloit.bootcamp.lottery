@@ -51,7 +51,7 @@ public class ParticipantController {
         }
         this.participantService.createParticipant(participantRegisterDto);
         redirectAttributes.addAttribute("success_message", "Successfully registered!");
-        return "redirect:/";
+        return "redirect:/public/";
     }
 
     @GetMapping("/public/status")

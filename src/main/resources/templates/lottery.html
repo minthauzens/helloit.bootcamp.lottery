@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lottery</title>
+    <!--/*/ <th:block th:include="header.html :: headerFiles">
+        </th:block> /*/-->
+</head>
+<body>
+<div th:replace="header :: navbar"></div>
+<div th:fragment="content" class="container">
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" th:href="@{/admin/lotteries}">Back to all lotteries</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div th:if="${(param.success_message != null)}" th:text="${param.success_message}"
+                 class="alert alert-success" role="alert">
+            </div>
+            <div th:if="${(param.error_message != null)}" th:text="${param.error_message}" class="alert alert-danger"
+                 role="alert">
+            </div>
+            <div class="card">
+                <div class="card-header" th:text="${lottery.title}">
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:text="'Limit: '+${lottery.limit}"></li>
+                    <li class="list-group-item" th:text="'Start Date: '+${lottery.startDate}"></li>
+                    <li class="list-group-item" th:text="'End Date: '+${lottery.endDate}"></li>
+                    <li class="list-group-item" th:text="'Completed: '+${lottery.completed}"></li>
+                    <li class="list-group-item" th:text="'Participant count: '+${participant_count}"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div th:if="${lottery.endDate == null}" class="row">
+        <a class="btn btn-primary" th:href="@{/admin/lottery/{id}/endRegistration(id=${lottery.id})}">End
+            registration</a>
+    </div>
+    <div th:if="${lottery.endDate != null && lottery.completed == false}" class="row">
+        <a class="btn btn-primary" th:href="@{/admin/lottery/{id}/chooseWinner(id=${lottery.id})}">Choose winner</a>
+    </div>
+</div>
+</body>
+</html>

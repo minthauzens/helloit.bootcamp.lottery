@@ -67,4 +67,10 @@ public class LotteryService {
     public boolean existsByTitle(String title) {
         return this.lotteryDao.existsByTitle(title);
     }
+
+    public ArrayList<Lottery> findAll() {
+        ArrayList<Lottery> result = new ArrayList<>();
+        lotteryDao.findAllByOrderByIdAsc().forEach(result::add);
+        return result;
+    }
 }

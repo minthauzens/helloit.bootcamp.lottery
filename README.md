@@ -62,3 +62,7 @@ Questions:
         order, the error should never be thrown. how to design the project structure for it.
         
 Be mindful of commas in JSONs!! hard to notice, but may cause bugs in your tests
+
+Why 
+    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+    makes browser send basic authorization without asking and couldn't find where to delete session_id/cookies
