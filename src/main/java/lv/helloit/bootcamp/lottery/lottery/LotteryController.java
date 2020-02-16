@@ -1,13 +1,16 @@
 package lv.helloit.bootcamp.lottery.lottery;
 
 import lv.helloit.bootcamp.lottery.participant.Participant;
+import lv.helloit.bootcamp.lottery.participant.ParticipantRegisterDto;
 import lv.helloit.bootcamp.lottery.participant.ParticipantService;
 import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -86,5 +89,32 @@ public class LotteryController {
         return url;
     }
 
+    @GetMapping("/admin/createLottery")
+    public String createLottery(Model model) {
+        model.addAttribute("lotteryRegistrationDto", new LotteryRegistrationDto());
+        return "create-lottery";
+    }
+
+    @PostMapping("/admin/createLottery")
+    public String createLottery(@Valid @ModelAttribute LotteryRegistrationDto lotteryRegistrationDto,
+                                BindingResult bindingResult,
+                                Model model,
+                                RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            String wrongField = bindingResult.getFieldErrors().get(0).getField();
+            model.addAttribute(wrongField + "_err", true);
+
+            model.addAttribute("lotteryRegistrationDto", lotteryRegistrationDto);
+            return "create-lottery";
+        }
+        ValidatorResponse response = this.lotteryValidator.validateForRegistration(lotteryRegistrationDto);
+        if (response.hasErrors()) {
+            model.addAttribute("error_message", response.getMessage());
+            return "create-lottery";
+        }
+        lotteryService.createLottery(lotteryRegistrationDto);
+        redirectAttributes.addAttribute("success_message", "Successfully created Lottery: " + lotteryRegistrationDto.getTitle() + "!");
+        return "redirect:/admin/lotteries";
+    }
 
 }

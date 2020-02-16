@@ -67,7 +67,7 @@ public class ParticipantController {
         if (bindingResult.hasErrors()) {
             String wrongField = bindingResult.getFieldErrors().get(0).getField();
             model.addAttribute(wrongField + "_err", true);
-            model.addAttribute("participantStatusDto", participantStatusDto);
+            return "status";
         }
         Response response = this.participantService.getParticipantStatus(participantStatusDto);
         if (response.hasErrors()) {

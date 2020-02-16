@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--suppress HtmlRequiredTitleElement -->
 <head th:fragment="headerFiles">
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -15,7 +16,7 @@
 <body>
 <div th:fragment="navbar">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" th:href="@{/}">Lottery</a>
+        <a class="navbar-brand" th:href="@{/public/}">Lottery</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -26,13 +27,13 @@
                     <a class="nav-link" th:href="@{/public/register}">Participate in a lottery</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/public/status}">Check lottery code</a>
+                    <a class="nav-link" th:href="@{/public/status}">Check your code</a>
                 </li>
                 <li class="nav-item" th:if="${#request.isUserInRole('USER')}">
-                    <a class="nav-link" th:href="@{/stats}">Show lotteries</a>
+                    <a class="nav-link" th:href="@{/admin/lotteries}">Show lotteries</a>
                 </li>
                 <li class="nav-item" th:if="${#request.isUserInRole('USER')}">
-                    <a class="nav-link" href="#">Add a new lottery</a>
+                    <a class="nav-link" th:href="@{/admin/createLottery}">Add a new lottery</a>
                 </li>
             </ul>
             <ul th:if="${#request.isUserInRole('USER')}" class="navbar-nav ml-auto">

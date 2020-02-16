@@ -22,7 +22,7 @@
                     </div>
                     <label for="inputLotteryId">Lottery id</label>
                     <input name="lotteryId" th:value="*{lotteryId}" type="number" class="form-control"
-                           id="inputLotteryId" aria-describedby="emailHelp" placeholder="Lottery id">
+                           id="inputLotteryId" placeholder="Lottery id">
                 </div>
                 <div class="form-group">
                     <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger"
@@ -30,7 +30,7 @@
                     </div>
                     <label for="inputEmail">Email address</label>
                     <input name="email" th:value="*{email}" type="email" class="form-control"
-                           id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                           id="inputEmail" placeholder="Enter email">
                 </div>
                 <div class="form-group">
                     <div th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="alert alert-danger"

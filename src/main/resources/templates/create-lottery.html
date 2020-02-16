@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create a new lottery</title>
+    <!--/*/ <th:block th:include="header.html :: headerFiles">
+        </th:block> /*/-->
+</head>
+<body>
+<div th:replace="header :: navbar"></div>
+<div th:fragment="content" class="container">
+    <div class="row">
+        <div class="col">
+            <div th:if="${error_message}" th:text="${error_message}" class="alert alert-danger" role="alert">
+            </div>
+            <form action="#"
+                  th:action="@{/admin/createLottery}"
+                  th:object="${lotteryRegistrationDto}"
+                  method="post">
+                <div class="form-group">
+                    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="alert alert-danger"
+                         role="alert">
+                    </div>
+                    <label for="inputTitle">Title</label>
+                    <input name="title" th:value="*{title}" type="text" class="form-control"
+                           id="inputTitle" placeholder="Lottery title">
+                </div>
+                <div class="form-group">
+                    <div th:if="${#fields.hasErrors('limit')}" th:errors="*{limit}" class="alert alert-danger"
+                         role="alert">
+                    </div>
+                    <label for="inputLimit">Lottery max participant count</label>
+                    <input name="limit" th:value="*{limit}" type="number" class="form-control"
+                           id="inputLimit" placeholder="Limit">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
