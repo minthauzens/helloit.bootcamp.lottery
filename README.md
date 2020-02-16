@@ -66,3 +66,7 @@ Be mindful of commas in JSONs!! hard to notice, but may cause bugs in your tests
 Why 
     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     makes browser send basic authorization without asking and couldn't find where to delete session_id/cookies
+    
+    
+    haven't tested gui side, so my code coverage has dropped
+    not sure where should chooseWinner be located.

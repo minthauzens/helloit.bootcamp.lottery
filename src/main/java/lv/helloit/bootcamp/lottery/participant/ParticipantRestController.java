@@ -1,9 +1,6 @@
 package lv.helloit.bootcamp.lottery.participant;
 
 import lombok.extern.slf4j.Slf4j;
-import lv.helloit.bootcamp.lottery.lottery.LotteryIdDto;
-import lv.helloit.bootcamp.lottery.lottery.LotteryService;
-import lv.helloit.bootcamp.lottery.lottery.LotteryValidator;
 import lv.helloit.bootcamp.lottery.utils.Response;
 import lv.helloit.bootcamp.lottery.utils.ValidatorResponse;
 import org.springframework.http.HttpStatus;
@@ -16,22 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static lv.helloit.bootcamp.lottery.utils.ResponseEntityBuilder.*;
+import static lv.helloit.bootcamp.lottery.utils.ResponseEntityBuilder.createResponseEntityFail;
+import static lv.helloit.bootcamp.lottery.utils.ResponseEntityBuilder.createResponseEntityOkWithId;
+
 @Slf4j
 @RestController
 public class ParticipantRestController {
     private final ParticipantService participantService;
     private final ParticipantValidator participantValidator;
-    private final LotteryValidator lotteryValidator;
-    private final LotteryService lotteryService;
+
 
     public ParticipantRestController(ParticipantService participantService,
-                                     ParticipantValidator participantValidator,
-                                     LotteryValidator lotteryValidator, LotteryService lotteryService) {
+                                     ParticipantValidator participantValidator) {
         this.participantService = participantService;
         this.participantValidator = participantValidator;
-        this.lotteryValidator = lotteryValidator;
-        this.lotteryService = lotteryService;
+
     }
 
     @PostMapping("/register")
@@ -51,30 +47,6 @@ public class ParticipantRestController {
         Long id = participantService.createParticipant(participantDto);
         log.info("Participant created");
         return createResponseEntityOkWithId(id, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/choose-winner")
-    public ResponseEntity<String> chooseWinner(@Valid @RequestBody LotteryIdDto lotteryIdDto, BindingResult bindingResult) {
-        log.info("Trying to choose winner for lottery with id: " + lotteryIdDto.getId());
-        if (bindingResult.hasErrors()) {
-            String reason = bindingResult.getFieldErrors().get(0).getDefaultMessage();
-            log.info("Couldn't choose winner: " + reason);
-            return createResponseEntityFail(reason);
-        }
-        ValidatorResponse response = this.lotteryValidator.validateForChooseWinner(lotteryIdDto);
-        if (response.hasErrors()) {
-            log.info("Couldn't choose winner: " + response.getMessage());
-            return createResponseEntityFail(response.getMessage());
-        }
-        if (!(this.participantService.existsByLotteryId(lotteryIdDto.getId()))) {
-            log.info("This lottery has no participants!");
-            return createResponseEntityFail("This lottery has no participants!");
-        }
-        Participant participant = this.participantService.chooseLotteryWinner(lotteryIdDto.getId());
-        this.lotteryService.setLotteryCompleted(lotteryIdDto.getId());
-        String winnerCode = participant.getCode();
-        log.info("Lottery (id: " + lotteryIdDto.getId() + ") winner is code: " + winnerCode);
-        return createResponseEntityOkWithWinnerCode(winnerCode);
     }
 
     @GetMapping("/status")
