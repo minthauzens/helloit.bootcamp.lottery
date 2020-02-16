@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import lv.helloit.bootcamp.lottery.lottery.Lottery;
 import lv.helloit.bootcamp.lottery.lottery.LotteryService;
 import lv.helloit.bootcamp.lottery.utils.Response;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ public class ParticipantService {
     private final ParticipantDao participantDao;
     private final LotteryService lotteryService;
 
-    public ParticipantService(ParticipantDao participantDao, LotteryService lotteryService) {
+    public ParticipantService(ParticipantDao participantDao, @Lazy LotteryService lotteryService) {
         this.participantDao = participantDao;
         this.lotteryService = lotteryService;
     }

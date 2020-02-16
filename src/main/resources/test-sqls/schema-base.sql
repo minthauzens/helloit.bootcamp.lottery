@@ -57,3 +57,17 @@ GROUP BY l.id;
 
 alter table lottery_with_participant_count owner to "lotteryDBUserDev";
 
+
+create view full_lottery_with_participant_count(id, title, participant_limit, start_date, end_date, completed, participants) as
+SELECT l.id,
+       l.title,
+       l.participant_limit,
+       l.start_date,
+       l.end_date,
+       l.completed,
+       count(p.*) AS participants
+FROM lottery l
+         LEFT JOIN participant p ON p.lottery_id = l.id
+GROUP BY l.id;
+
+alter table full_lottery_with_participant_count owner to "lotteryDBUserDev";

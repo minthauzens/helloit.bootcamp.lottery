@@ -38,7 +38,7 @@ public class LotteryController {
     @GetMapping("/admin/lotteries")
     public String getAllLotteries(Model model) {
         log.info("authorized acceess to /admin/lotteries");
-        model.addAttribute("lotteries", this.lotteryService.findAll());
+        model.addAttribute("lotteries", this.lotteryService.findAllWithParticipantCount());
         return "lotteries";
     }
 

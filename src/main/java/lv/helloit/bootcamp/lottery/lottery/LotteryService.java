@@ -14,13 +14,16 @@ public class LotteryService {
     private final LotteryDao lotteryDao;
     private final LotteryWithParticipantCountDao lotteryWithParticipantCountDao;
     private final ParticipantService participantService;
+    private final LotteryWithLimitCompletedAndParticipantCountDao lotteryWithLimitCompletedAndParticipantCountDao;
 
     public LotteryService(LotteryDao lotteryDao,
                           LotteryWithParticipantCountDao lotteryWithParticipantCountDao,
+                          LotteryWithLimitCompletedAndParticipantCountDao lotteryWithLimitCompletedAndParticipantCountDao,
                           ParticipantService participantService) {
         this.lotteryDao = lotteryDao;
         this.lotteryWithParticipantCountDao = lotteryWithParticipantCountDao;
         this.participantService = participantService;
+        this.lotteryWithLimitCompletedAndParticipantCountDao = lotteryWithLimitCompletedAndParticipantCountDao;
     }
 
     public Lottery createLottery(LotteryRegistrationDto lotteryRegistrationDto) {
@@ -78,9 +81,9 @@ public class LotteryService {
         return this.lotteryDao.existsByTitle(title);
     }
 
-    public ArrayList<Lottery> findAll() {
-        ArrayList<Lottery> result = new ArrayList<>();
-        lotteryDao.findAllByOrderByIdAsc().forEach(result::add);
+    public ArrayList<LotteryWithLimitCompletedAndParticipantCountDto> findAllWithParticipantCount() {
+        ArrayList<LotteryWithLimitCompletedAndParticipantCountDto> result = new ArrayList<>();
+        lotteryWithLimitCompletedAndParticipantCountDao.findAllByOrderByIdAsc().forEach(result::add);
         return result;
     }
 }

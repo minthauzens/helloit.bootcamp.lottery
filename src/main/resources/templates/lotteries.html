@@ -19,20 +19,23 @@
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Limit</th>
                     <th scope="col">Start Date</th>
                     <th scope="col">End Date</th>
+                    <th scope="col">Limit</th>
+                    <th scope="col">Participants</th>
                     <th scope="col">Completed</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
+                <!--/*@thymesVar id="lottery" type="lv.helloit.bootcamp.lottery.lottery.LotteryWithLimitCompletedAndParticipantCountDto"*/-->
                 <tr th:each="lottery: ${lotteries}">
                     <td th:text="${lottery.id}"></td>
                     <td th:text="${lottery.title}"></td>
-                    <td th:text="${lottery.limit}"></td>
                     <td th:text="${lottery.startDate}"></td>
                     <td th:text="${lottery.endDate}"></td>
+                    <td th:text="${lottery.limit}"></td>
+                    <td th:text="${lottery.participants}"></td>
                     <td th:text="${lottery.completed}"></td>
                     <td><a th:href="@{/admin/lottery/{id}(id=${lottery.id})}">Change status</a></td>
                 </tr>
