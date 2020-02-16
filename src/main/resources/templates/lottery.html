@@ -34,11 +34,12 @@
             </div>
         </div>
     </div>
+    <br>
     <div th:if="${lottery.endDate == null}" class="row">
         <a class="btn btn-primary" th:href="@{/admin/lottery/{id}/endRegistration(id=${lottery.id})}">End
             registration</a>
     </div>
-    <div th:if="${lottery.endDate != null && lottery.completed == false}" class="row">
+    <div th:if="${lottery.endDate != null && lottery.completed == false && participant_count != 0}" class="row">
         <a class="btn btn-primary" th:href="@{/admin/lottery/{id}/chooseWinner(id=${lottery.id})}">Choose winner</a>
     </div>
 </div>

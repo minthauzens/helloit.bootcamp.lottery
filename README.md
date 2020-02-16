@@ -69,4 +69,4 @@ Why
     
     
     haven't tested gui side, so my code coverage has dropped
-    not sure where should chooseWinner be located.
+    not sure where should chooseWinner be located. made the choice so both Lottery Controllers would be responsible about it.
