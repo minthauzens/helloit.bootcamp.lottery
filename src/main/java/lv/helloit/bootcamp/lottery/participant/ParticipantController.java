@@ -27,6 +27,7 @@ public class ParticipantController {
 
     @GetMapping("/public/register")
     public String registerParticipant(Model model) {
+        log.info("accessing /public/register");
         model.addAttribute("participantRegisterDto", new ParticipantRegisterDto());
         return "register-participant";
     }
@@ -36,16 +37,18 @@ public class ParticipantController {
                                       BindingResult bindingResult,
                                       Model model,
                                       RedirectAttributes redirectAttributes) {
+        log.info("trying to register new participant");
         if (bindingResult.hasErrors()) {
             String wrongField = bindingResult.getFieldErrors().get(0).getField();
             model.addAttribute(wrongField + "_err", true);
-
             model.addAttribute("participantRegisterDto", participantRegisterDto);
+            log.info("failed");
             return "register-participant";
         }
         ValidatorResponse response = this.participantValidator.validate(participantRegisterDto);
         if (response.hasErrors()) {
             model.addAttribute("error_message", response.getMessage());
+            log.info("failed: " + response.getMessage());
             return "register-participant";
         }
         this.participantService.createParticipant(participantRegisterDto);
@@ -55,6 +58,7 @@ public class ParticipantController {
 
     @GetMapping("/public/status")
     public String getParticipantStatus(Model model) {
+        log.info("accessing /public/status");
         model.addAttribute("participantStatusDto", new ParticipantStatusDto());
         return "status";
     }
@@ -63,15 +67,19 @@ public class ParticipantController {
     public String getParticipantStatus(@Valid @ModelAttribute ParticipantStatusDto participantStatusDto,
                                        BindingResult bindingResult,
                                        Model model) {
+        log.info("trying to get participant status (" + participantStatusDto + ")");
         if (bindingResult.hasErrors()) {
             String wrongField = bindingResult.getFieldErrors().get(0).getField();
             model.addAttribute(wrongField + "_err", true);
+            log.info("failed: invalid data");
             return "status";
         }
         Response response = this.participantService.getParticipantStatus(participantStatusDto);
         if (response.hasErrors()) {
+            log.info("failed: " + response.getMessage());
             model.addAttribute("error_message", response.getMessage());
         } else {
+            log.info("SUCCESS. status:" + response.getMessage());
             model.addAttribute("participant_status", response.getMessage());
         }
         return "status";

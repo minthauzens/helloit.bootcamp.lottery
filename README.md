@@ -71,3 +71,6 @@ Why
     haven't tested gui side, so my code coverage has dropped
     not sure where should chooseWinner be located. made the choice so both Lottery Controllers would be responsible about it.
     it is design choice not to show login option for public side of things.
+    completed in lottery name is a bit ambigious, because for lotteries with no participants, it is possible to end their registration,
+        but impossible to complete them, completed means if winner has been chosen.
+        this could be resolved by changing the name or setting it to true, when endDate is being set.

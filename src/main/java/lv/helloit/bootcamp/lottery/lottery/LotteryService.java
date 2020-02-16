@@ -1,6 +1,7 @@
 package lv.helloit.bootcamp.lottery.lottery;
 
 import lombok.extern.slf4j.Slf4j;
+import lv.helloit.bootcamp.lottery.participant.ParticipantService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,10 +13,14 @@ import java.util.Optional;
 public class LotteryService {
     private final LotteryDao lotteryDao;
     private final LotteryWithParticipantCountDao lotteryWithParticipantCountDao;
+    private final ParticipantService participantService;
 
-    public LotteryService(LotteryDao lotteryDao, LotteryWithParticipantCountDao lotteryWithParticipantCountDao) {
+    public LotteryService(LotteryDao lotteryDao,
+                          LotteryWithParticipantCountDao lotteryWithParticipantCountDao,
+                          ParticipantService participantService) {
         this.lotteryDao = lotteryDao;
         this.lotteryWithParticipantCountDao = lotteryWithParticipantCountDao;
+        this.participantService = participantService;
     }
 
     public Lottery createLottery(LotteryRegistrationDto lotteryRegistrationDto) {
@@ -24,7 +29,7 @@ public class LotteryService {
                 .limit(lotteryRegistrationDto.getLimit())
                 .startDate(LocalDate.now())
                 .build();
-        log.info("Saving: " + lottery);
+        log.info("Creating: " + lottery);
         return lotteryDao.save(lottery);
     }
 
@@ -51,6 +56,10 @@ public class LotteryService {
         Lottery lottery = optionalLottery.get();
         lottery.setEndDate(LocalDate.now());
         log.info("Stopping registration: Lottery.id = " + lottery.getId());
+        if (!(this.participantService.existsByLotteryId(id))) {
+            log.info("This lottery has no participants, setting it completed");
+            setLotteryCompleted(id);
+        }
         this.lotteryDao.save(lottery);
     }
 

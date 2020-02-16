@@ -30,7 +30,7 @@ public class ParticipantService {
                 .lotteryId(participantDto.getLotteryId())
                 .registrationDate(LocalDate.now())
                 .build();
-        log.info("Saving: " + participant);
+        log.info("Creating: " + participant);
         Participant result = this.participantDao.save(participant);
         return result.getId();
     }
