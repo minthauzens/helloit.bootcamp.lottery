@@ -5,7 +5,6 @@ import lv.helloit.bootcamp.lottery.lottery.Lottery;
 import lv.helloit.bootcamp.lottery.lottery.LotteryService;
 import lv.helloit.bootcamp.lottery.utils.Response;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -79,7 +78,7 @@ public class ParticipantService {
         if (!optionalLottery.get().isCompleted()) {
             String message = "Lottery hasn't been completed, participant status - pending";
             log.info(message);
-            return new Response(true,"PENDING", HttpStatus.OK);
+            return new Response(true, "PENDING", HttpStatus.OK);
         }
         String participantStatus = (participant.isWinner()) ? "WIN" : "LOOSE";
         log.info("the participant status: " + participantStatus);

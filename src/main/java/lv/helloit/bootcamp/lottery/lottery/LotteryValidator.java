@@ -18,6 +18,7 @@ public class LotteryValidator {
         this.lotteryService = lotteryService;
         this.participantService = participantService;
     }
+
     public ValidatorResponse validateForRegistration(LotteryRegistrationDto lotteryRegistrationDto) {
         response = new ValidatorResponse();
         if (lotteryService.existsByTitle(lotteryRegistrationDto.getTitle())) {

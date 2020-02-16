@@ -8,5 +8,6 @@ public interface LotteryDao extends CrudRepository<Lottery, Long> {
     Optional<Lottery> findFirstByTitle(String title);
 
     boolean existsByTitle(String title);
+
     Iterable<Lottery> findAllByOrderByIdAsc();
 }
