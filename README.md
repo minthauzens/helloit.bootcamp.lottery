@@ -32,3 +32,6 @@ Known issues and limits:
     4. is application secure from multiple requests collisions?
         i dont think so, validator checks if lottery has properties with one query, then with a different query the request is saved. (also what was the name of it)
     5. I have used LocalDate in the application and the DB, not LocalDateTime
+    
+    
+    ** When you edit this file, you can see how i structured the content, not how github represents it **
