@@ -2,6 +2,7 @@ package lv.helloit.bootcamp.lottery.lottery;
 
 import lombok.extern.slf4j.Slf4j;
 import lv.helloit.bootcamp.lottery.participant.ParticipantService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ public class LotteryService {
 
     public LotteryService(LotteryDao lotteryDao,
                           LotteryWithParticipantCountDao lotteryWithParticipantCountDao,
-                          ParticipantService participantService) {
+                          @Lazy ParticipantService participantService) {
         this.lotteryDao = lotteryDao;
         this.lotteryWithParticipantCountDao = lotteryWithParticipantCountDao;
         this.participantService = participantService;
